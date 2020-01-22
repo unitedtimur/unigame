@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>images/howtoplay.png</file>
+        <file>images/about.png</file>
+        <file>images/exit.png</file>
+        <file>images/unigame.png</file>
+    </qresource>
+</RCC>
