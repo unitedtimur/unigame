@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+﻿cmake_minimum_required(VERSION 3.15)
 
 project(uniGame VERSION 1.0.0 LANGUAGES CXX)
 
@@ -17,16 +17,22 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(project_ui
 	ui/UniMainWindow.ui
+	ui/StartMenu.ui
+	ui/Matrix.ui
 )
 
 set(project_headers 
 	include/UniMainWindow.h
+	include/StartMenu.h
 	include/Configuration.h
+	include/Matrix.h
 )
 
 set(project_sources 
 	src/main.cpp
 	src/UniMainWindow.cpp
+	src/StartMenu.cpp
+	src/Matrix.cpp
 )
 
 set(project_resources

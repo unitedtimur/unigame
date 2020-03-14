@@ -1,5 +1,9 @@
 #include <QApplication>
+
 #include "include/UniMainWindow.h"
+#include "include/Matrix.h"
+
+//#include <SFML/Graphics.hpp>
 
 int main(int argc, char** argv)
 {
@@ -7,9 +11,12 @@ int main(int argc, char** argv)
 
 	QApplication app(argc, argv);
 
-	UniMainWindow test;
+	//UniMainWindow test;
+	//
+	//test.show();
+	
+	Matrix matrix;
+	matrix.show();
 
-	test.show();
-
-	return app.exec();
+	return QApplication::exec();
 }
