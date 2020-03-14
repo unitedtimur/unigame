@@ -32,8 +32,6 @@ Matrix::~Matrix()
 void Matrix::paintEvent(QPaintEvent* event)
 {
 	this->drawMatrix6x6(event);
-
-
 }
 
 void Matrix::drawMatrix6x6(QPaintEvent* event) const
