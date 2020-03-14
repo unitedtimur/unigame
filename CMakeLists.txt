@@ -26,6 +26,7 @@ set(project_headers
 	include/StartMenu.h
 	include/Configuration.h
 	include/Matrix.h
+	include/Levels.h
 )
 
 set(project_sources 
@@ -33,6 +34,7 @@ set(project_sources
 	src/UniMainWindow.cpp
 	src/StartMenu.cpp
 	src/Matrix.cpp
+	src/Levels.cpp
 )
 
 set(project_resources
