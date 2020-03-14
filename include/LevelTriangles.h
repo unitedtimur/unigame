@@ -1,12 +1,22 @@
-#ifndef ILEVEL_H
-#define ILEVEL_H
+#ifndef LEVELTRIANGLES_H
+#define LEVELTRIANGLES_H
 
 #include "include/ILevel.h"
+
+class QPolygon;
 
 class LevelTriangles : public ILevel
 {
 public:
-	
+	explicit LevelTriangles(QPolygon* polygon);
+	~LevelTriangles();
+
+	void paintLevel() override;
+	void clearLevel() override;
+	void showTooltip() override;
+
+private:
+	QPolygon* polygon;
 };
 
-#endif // ILEVEL_H
+#endif // LEVELTRIANGLES_H
