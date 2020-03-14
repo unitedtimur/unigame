@@ -1,14 +1,13 @@
-#ifndef ILEVELS_H
-#define ILEVELS_H
+#ifndef ILEVEL_H
+#define ILEVEL_H
 
-class ILevels
+class ILevel
 {
 public:
-	virtual ~ILevels() = default;
+	virtual ~ILevel() = default;
 	virtual void paintLevel() = 0;
 	virtual void clearLevel() = 0;
 	virtual void showTooltip() = 0;
-
 };
 
-#endif // ILEVELS_H
+#endif // ILEVEL_H
