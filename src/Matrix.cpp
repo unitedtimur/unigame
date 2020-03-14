@@ -1,7 +1,7 @@
+#include "include/Configuration.h"
 #include "include/Matrix.h"
 #include "ui_Matrix.h"
 
-#include "include/Configuration.h"
 
 #include <QPainter>
 #include <QGraphicsScene>
