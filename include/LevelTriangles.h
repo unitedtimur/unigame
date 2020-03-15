@@ -2,15 +2,20 @@
 #define LEVELTRIANGLES_H
 
 #include "include/ILevel.h"
-#include <QVector>
+#include <QObject>
+#include <QPolygon>
+#include <QMap>
 
-class QGraphicsScene;
-class QGraphicsView;
+class QMouseEvent;
+class Matrix;
+class GraphicScene;
+class GraphicView;
 
 class LevelTriangles final : public ILevel
 {
+	Q_OBJECT
 public:
-	explicit LevelTriangles(QGraphicsScene* scene, QGraphicsView* view);
+	explicit LevelTriangles(Matrix* matrix, GraphicScene* scene, GraphicView* view);
 	~LevelTriangles() = default;
 
 	void paintLevel() override;
@@ -21,11 +26,19 @@ public:
 protected:
 	void level_1();
 
-	
+	Q_SLOT void insidePolygon(QMouseEvent* event);
+
+public:
+	bool event(QEvent* event) override;
+	bool eventFilter(QObject* watched, QEvent* event) override;
 private:
-	QGraphicsScene*		scene;
-	QGraphicsView*		view;
+	Matrix*				matrix;
+	GraphicScene*		scene;
+	GraphicView*		view;
 	QVector<QPoint>		points;
+	QPolygon*			polygon;
+
+	QVector<QPoint>		lines;
 };
 
 #endif // LEVELTRIANGLES_H

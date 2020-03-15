@@ -3,11 +3,13 @@
 #include "include/UniMainWindow.h"
 #include "include/Matrix.h"
 
-//#include <SFML/Graphics.hpp>
+#include <QtCore/QTextCodec>
+#include <QTextCodec>
 
 int main(int argc, char** argv)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 
 	QApplication app(argc, argv);
 
