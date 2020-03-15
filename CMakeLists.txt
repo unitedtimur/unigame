@@ -28,6 +28,8 @@ set(project_headers
 	include/Matrix.h
 	include/ILevel.h
 	include/LevelTriangles.h
+	include/GraphicScene.h
+	include/GraphicView.h
 )
 
 set(project_sources 
@@ -36,6 +38,8 @@ set(project_sources
 	src/StartMenu.cpp
 	src/Matrix.cpp
 	src/LevelTriangles.cpp
+	src/GraphicScene.cpp
+	src/GraphicView.cpp
 )
 
 set(project_resources
