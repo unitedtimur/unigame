@@ -3,20 +3,22 @@
 
 #include "include/ILevel.h"
 
+class QGraphicsScene;
 class QPolygon;
 
-class LevelTriangles : public ILevel
+class LevelTriangles final : public ILevel
 {
 public:
-	explicit LevelTriangles(QPolygon* polygon);
+	explicit LevelTriangles(QGraphicsScene* scene);
 	~LevelTriangles();
 
 	void paintLevel() override;
+	void paintPoints(QPoint points) override;
 	void clearLevel() override;
 	void showTooltip() override;
 
 private:
-	QPolygon* polygon;
+	QGraphicsScene*		scene;
 };
 
 #endif // LEVELTRIANGLES_H

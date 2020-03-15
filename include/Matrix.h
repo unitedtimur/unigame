@@ -2,12 +2,15 @@
 #define MATRIX_H
 
 #include <QMainWindow>
+#include "GraphicView.h"
+
+class QGraphicsSceneMouseEvent;
 
 namespace Ui {
 	class Matrix;
 }
 
-class QGraphicsScene;
+class GraphicScene;
 
 class Matrix : public QMainWindow
 {
@@ -24,15 +27,17 @@ protected:
 private:
     void drawMatrix6x6(QPaintEvent* event) const;
 
+    Q_SLOT void startLevelTriangles();
+    Q_SLOT void paintPointOnGraphicView(QMouseEvent* event);
+
 protected:
     void mousePressEvent(QMouseEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
 
 private:
-    Ui::Matrix *ui;
+    Ui::Matrix*     ui;
 
-    QGraphicsScene* scene;
-
+    GraphicScene*   scene;
+    GraphicView*    view;
 };
 
 #endif // MATRIX_H
