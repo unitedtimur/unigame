@@ -1,4 +1,4 @@
-#include "include/Configuration.h"
+﻿#include "include/Configuration.h"
 #include "include/Matrix.h"
 #include "include/LevelTriangles.h"
 #include "include/GraphicScene.h"
@@ -18,15 +18,22 @@ Matrix::Matrix(QWidget* parent) :
 {
 	ui->setupUi(this);
 
+	// Добавление GraphicView на viewLayout
+	ui->viewLayout->addWidget(view);
+
+	// Фиксация размера окна ( запрет на изменение )
 	this->setMinimumSize(QSize(Configuration::WIDTH_MATRIX_WINDOW, Configuration::HEIGHT_MATRIX_WINDOW));
 	this->setMaximumSize(QSize(Configuration::WIDTH_MATRIX_WINDOW, Configuration::HEIGHT_MATRIX_WINDOW));
 
-	ui->verticalLayout->addWidget(view);
+	view->setMinimumSize(500, 400);
+	view->setMaximumSize(500, 400);
+
+	// Запрет scroll'ов ( вертикального и горизонтального )
 	view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	view->setDragMode(QGraphicsView::RubberBandDrag);
-	//ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
-
+	//view->setDragMode(QGraphicsView::RubberBandDrag);
+	
+	// Сигнал нажатия мыши на GraphicView и слот отрисовки точки
 	connect(view, &GraphicView::mouseClicked, this, &Matrix::paintPointOnGraphicView);
 }
 
@@ -59,15 +66,15 @@ void Matrix::drawMatrix6x6(QPaintEvent* event) const
 
 void Matrix::startLevelTriangles()
 {
-	//LevelTriangles levelTriangles(new QPolygon({ QPoint(0, -40), QPoint(25, 40), QPoint(-25, 40) }), scene);
-
-	
+	LevelTriangles levelTriangles(scene, view);
 }
 
 void Matrix::paintPointOnGraphicView(QMouseEvent* event)
 {
-	LevelTriangles levelTriangles(scene);
-	levelTriangles.paintPoints(QPoint(event->pos().x(), event->pos().y()));
+	qDebug() << event->pos();
+
+	double rad = 10;
+	scene->addEllipse(QRectF(event->x() - rad, event->y() - rad, rad * 2.0, rad * 2.0), QPen(), QBrush(Qt::yellow));
 }
 
 void Matrix::mousePressEvent(QMouseEvent* event)
