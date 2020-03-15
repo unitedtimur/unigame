@@ -35,6 +35,8 @@ Matrix::Matrix(QWidget* parent) :
 	
 	// Сигнал нажатия мыши на GraphicView и слот отрисовки точки
 	connect(view, &GraphicView::mouseClicked, this, &Matrix::paintPointOnGraphicView);
+
+	startLevelTriangles();
 }
 
 Matrix::~Matrix()
@@ -46,8 +48,7 @@ Matrix::~Matrix()
 
 void Matrix::paintEvent(QPaintEvent* event)
 {
-	this->drawMatrix6x6(event);
-	startLevelTriangles();
+	
 }
 
 void Matrix::drawMatrix6x6(QPaintEvent* event) const
@@ -66,10 +67,11 @@ void Matrix::drawMatrix6x6(QPaintEvent* event) const
 
 void Matrix::startLevelTriangles()
 {
-	LevelTriangles levelTriangles(scene, view);
+	this->drawMatrix6x6(nullptr);
+	level = new LevelTriangles(this, scene, view);
 }
 
-void Matrix::paintPointOnGraphicView(QMouseEvent* event)
+void Matrix::paintPointOnGraphicView(QMouseEvent* event)		
 {
 	qDebug() << event->pos();
 

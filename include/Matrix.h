@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "GraphicView.h"
+#include "ILevel.h"
 
 class QGraphicsSceneMouseEvent;
 
@@ -38,6 +39,10 @@ private:
 
     GraphicScene*   scene;
     GraphicView*    view;
+
+    ILevel*         level;
+
+    friend class LevelTriangles;
 };
 
 #endif // MATRIX_H

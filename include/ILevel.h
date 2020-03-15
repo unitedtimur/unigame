@@ -2,9 +2,11 @@
 #define ILEVEL_H
 
 #include <QPoint>
+#include <QObject>
 
-class ILevel
+class ILevel : public QObject
 {
+	Q_OBJECT
 public:
 	virtual void paintLevel()							= 0;
 	virtual void paintPoint(const QPoint& points)		= 0;
