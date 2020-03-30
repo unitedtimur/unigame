@@ -11,6 +11,7 @@
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 Matrix::Matrix(QWidget* parent) :
 	QMainWindow(parent),
@@ -42,12 +43,11 @@ Matrix::Matrix(QWidget* parent) :
 	// Сигнал нажатия мыши на GraphicView и слот отрисовки точки
 	//connect(view, &GraphicView::mouseClicked, this, &Matrix::paintPointOnGraphicView);
 
-	startLevelTriangles();
+	//startLevelTriangles();
 
 	// Музыка для уровней
 	_audio->setMedia(QUrl(Configuration::AUDIO_MATRIX));
-	_audio->setVolume(30);
-	_audio->play();
+	//_audio->play();
 }
 
 Matrix::~Matrix()
@@ -95,6 +95,11 @@ void Matrix::drawMatrix6x6(QPaintEvent* event) const
 	_view->setScene(_scene);
 }
 
+void Matrix::chooseLevel()
+{
+
+}
+
 void Matrix::startLevelTriangles()
 {
 	this->drawMatrix6x6(nullptr);
@@ -113,4 +118,14 @@ void Matrix::paintPointOnGraphicView(QMouseEvent* event)
 void Matrix::mousePressEvent(QMouseEvent* event)
 {
 
+}
+
+void Matrix::setMedia()
+{
+	QMediaPlaylist playlist;
+
+	playlist.addMedia(QUrl(Configuration::AUDIO_MATRIX));
+	playlist.setCurrentIndex(1);
+
+	_audio->setPlaylist(&playlist);
 }
