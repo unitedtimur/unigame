@@ -6,7 +6,6 @@
 #include "include/GraphicScene.h"
 
 #include <QMouseEvent>
-#include <QDebug>
 #include <QtMath> // qFabs
 			
 Level_Triangle_1::Level_Triangle_1(Matrix* matrix, GraphicView* view, GraphicScene* scene) :
@@ -71,14 +70,14 @@ void Level_Triangle_1::showTooltip()
 
 void Level_Triangle_1::paintPointOnGraphicView(QMouseEvent* event)
 {
-	qDebug() << event->pos();
-
 	double rad = 5;
 	_scene->addEllipse(QRectF(event->x() - rad, event->y() - rad, rad * 2.0, rad * 2.0), QPen(), QBrush(Qt::yellow));
 }
 
 void Level_Triangle_1::isInsidePolygon(QMouseEvent* event)
 {
+	static qint32 counter = 0;
+
 	for (qint32 i = 0; i < _polygon._points.size(); ++i)
 	{
 		if (inArea(_polygon._points[i], event->pos()))
@@ -87,17 +86,23 @@ void Level_Triangle_1::isInsidePolygon(QMouseEvent* event)
 			_polygon._isPressed[i] = true;
 		}
 	}
+
+	if (++counter == 10)
+		this->showHint();
 }
 
 void Level_Triangle_1::startLevel()
 {
-	//QCoreApplication::instance()->installEventFilter(this);
-
 	// Показываем задание
 	this->showTooltip();
 
 	// Отрисовываем уровень
 	this->paintLevel();
+}
+
+void Level_Triangle_1::showHint()
+{
+	_matrix->ui->hintLabel->setText(QString::fromUtf8(u8"Подсказка\nЧтобы решить уровень достаточно единожды попасть в каждую из точек!"));
 }
 
 bool Level_Triangle_1::checkLevel(QObject* watched, QEvent* event)

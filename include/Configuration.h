@@ -15,6 +15,8 @@ namespace Configuration
 	static const QString EXIT		= ":/img/images/exit.png";
 	static const QString UNIGAME	= ":/img/images/unigame.png";
 
+	static const QString AUDIO_MATRIX = "qrc:/sounds/sounds/AUDIO_MATRIX.wav";
+
 }
 
 #endif

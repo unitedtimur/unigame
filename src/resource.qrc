@@ -5,4 +5,7 @@
         <file>images/exit.png</file>
         <file>images/unigame.png</file>
     </qresource>
+    <qresource prefix="/sounds">
+        <file>sounds/AUDIO_MATRIX.wav</file>
+    </qresource>
 </RCC>

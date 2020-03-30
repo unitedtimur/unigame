@@ -13,6 +13,7 @@ public:
 	virtual void paintPoint(const QPoint& point)				= 0;
 	virtual void clearLevel()									= 0;
 	virtual void showTooltip()									= 0;
+	virtual void showHint()										= 0;
 	virtual void startLevel()									= 0;
 	virtual bool checkLevel(QObject* watched, QEvent* event)	= 0;
 	virtual void finishLevel()									= 0;
