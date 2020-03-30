@@ -26,6 +26,7 @@ public:
 
 protected:
 	void startLevel() override;
+	void showHint() override;
 	bool checkLevel(QObject* watched, QEvent* event) override;
 	void finishLevel() override;
 

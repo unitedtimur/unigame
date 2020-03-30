@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 class QGraphicsSceneMouseEvent;
+class QMediaPlayer;
 class GraphicScene;
 class GraphicView;
 class ILevel;
@@ -37,11 +38,10 @@ protected:
 
 public:
     Ui::Matrix*     ui;
-
-    GraphicScene*   scene;
-    GraphicView*    view;
-
-    ILevel*         level;
+    GraphicScene*   _scene;
+    GraphicView*    _view;
+    ILevel*         _level;
+    QMediaPlayer*   _audio;
 };
 
 #endif // MATRIX_H
