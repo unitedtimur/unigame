@@ -43,11 +43,11 @@ Matrix::Matrix(QWidget* parent) :
 	// Сигнал нажатия мыши на GraphicView и слот отрисовки точки
 	//connect(view, &GraphicView::mouseClicked, this, &Matrix::paintPointOnGraphicView);
 
-	//startLevelTriangles();
+	// Фоновая музыка
+	this->setMedia();
 
-	// Музыка для уровней
-	_audio->setMedia(QUrl(Configuration::AUDIO_MATRIX));
-	//_audio->play();
+	// Выбираем уровень
+	connect(ui->Level_1_Button, &QPushButton::clicked, this, &Matrix::chooseLevel);
 }
 
 Matrix::~Matrix()
@@ -97,7 +97,9 @@ void Matrix::drawMatrix6x6(QPaintEvent* event) const
 
 void Matrix::chooseLevel()
 {
+	this->drawMatrix6x6(nullptr);
 
+	_level = new Level_Triangle_1(this, _view, _scene);
 }
 
 void Matrix::startLevelTriangles()
@@ -122,10 +124,7 @@ void Matrix::mousePressEvent(QMouseEvent* event)
 
 void Matrix::setMedia()
 {
-	QMediaPlaylist playlist;
-
-	playlist.addMedia(QUrl(Configuration::AUDIO_MATRIX));
-	playlist.setCurrentIndex(1);
-
-	_audio->setPlaylist(&playlist);
+	_audio->setMedia(QUrl(Configuration::AUDIO_MATRIX));
+	_audio->setVolume(5);
+	_audio->play();
 }

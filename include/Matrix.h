@@ -29,7 +29,7 @@ protected:
 
 public:
     void drawMatrix6x6(QPaintEvent* event) const;
-    void chooseLevel();
+    Q_SLOT void chooseLevel();
 
     Q_SLOT void startLevelTriangles();
     Q_SLOT void paintPointOnGraphicView(QMouseEvent* event);
