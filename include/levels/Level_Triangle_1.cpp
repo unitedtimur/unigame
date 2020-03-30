@@ -118,6 +118,12 @@ void Level_Triangle_1::startLevel()
 void Level_Triangle_1::showHint()
 {
 	_matrix->ui->hintLabel->setText(QString::fromUtf8(u8"Подсказка\nЧтобы решить уровень достаточно единожды попасть в каждую из точек!"));
+
+	// TODO Решить вопрос со звуком в подсказке
+	QMediaPlayer* audioHint = new QMediaPlayer;
+	audioHint->setMedia(QUrl(Configuration::AUDIO_HINT));
+	audioHint->play();
+	delete audioHint;
 }
 
 bool Level_Triangle_1::checkLevel(QObject* watched, QEvent* event)

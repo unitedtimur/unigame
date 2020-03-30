@@ -17,6 +17,7 @@ namespace Configuration
 
 	static const QString AUDIO_MATRIX				= "qrc:/sounds/sounds/AUDIO_MATRIX.wav";
 	static const QString AUDIO_PRESS_MOUSE_LEFT		= "qrc:/sounds/sounds/AUDIO_PRESS_MOUSE_LEFT.wav";
+	static const QString AUDIO_HINT					= "qrc:/sounds/sounds/AUDIO_HINT.wav";
 
 }
 

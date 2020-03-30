@@ -8,5 +8,6 @@
     <qresource prefix="/sounds">
         <file>sounds/AUDIO_MATRIX.wav</file>
         <file>sounds/AUDIO_PRESS_MOUSE_LEFT.wav</file>
+        <file>sounds/AUDIO_HINT.wav</file>
     </qresource>
 </RCC>
