@@ -1,7 +1,7 @@
 #ifndef LEVELTRIANGLES_H
 #define LEVELTRIANGLES_H
 
-#include "include/ILevel.h"
+#include "include/levels/ILevel.h"
 #include <QObject>
 #include <QPolygon>
 #include <QMap>
@@ -23,8 +23,12 @@ public:
 	void clearLevel() override;
 	void showTooltip() override;
 
+	static bool inArea(const QPoint& first, const QPoint& second, const qint32& epsilon = 15);
+
 protected:
 	void level_1();
+	void level_1_after();
+
 
 	Q_SLOT void insidePolygon(QMouseEvent* event);
 
@@ -35,10 +39,23 @@ private:
 	Matrix*				matrix;
 	GraphicScene*		scene;
 	GraphicView*		view;
-	QVector<QPoint>		points;
-	QPolygon*			polygon;
 
-	QVector<QPoint>		lines;
+	enum Condition
+	{
+		NotInArea	= 0,
+		InArea		= 1
+	};
+
+	QVector<QPoint>	polygon;
+
+
+	enum Levels
+	{
+		No_Level	= 0,
+		Level_1		= 1,
+		Level_2		= 2,
+		Level_3		= 3
+	} levels;
 };
 
 #endif // LEVELTRIANGLES_H

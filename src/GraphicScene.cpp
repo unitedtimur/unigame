@@ -2,5 +2,5 @@
 
 void GraphicScene::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-	Q_EMIT this->test(event);
+	Q_EMIT this->mousePressed(event);
 }

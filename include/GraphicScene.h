@@ -6,10 +6,10 @@
 class GraphicScene : public QGraphicsScene
 {
 	Q_OBJECT
+
 public:
 
-	signals:
-	void test(QGraphicsSceneMouseEvent*);
+	Q_SIGNAL void mousePressed(QGraphicsSceneMouseEvent*);
 		
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
