@@ -8,6 +8,7 @@ class QMouseEvent;
 class Matrix;
 class GraphicView;
 class GraphicScene;
+class QMediaPlayer;
 
 class Level_Triangle_1 : public ILevel
 {
@@ -15,6 +16,7 @@ class Level_Triangle_1 : public ILevel
 
 public:
 	explicit Level_Triangle_1(Matrix* matrix, GraphicView* view, GraphicScene* scene);
+	~Level_Triangle_1();
 
 	void paintLevel() override;
 	void paintPoint(const QPoint& point) override;
@@ -23,6 +25,7 @@ public:
 
 	Q_SLOT void paintPointOnGraphicView(QMouseEvent* event);
 	Q_SLOT void isInsidePolygon(QMouseEvent* event);
+	Q_SLOT void playPressSound();
 
 protected:
 	void startLevel() override;
@@ -36,6 +39,7 @@ private:
 	Matrix* _matrix;
 	GraphicView* _view;
 	GraphicScene* _scene;
+	QMediaPlayer* _mediaPress;
 
 	//QPolygon polygon;
 	struct Polygon

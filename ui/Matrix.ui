@@ -44,7 +44,7 @@
            <item alignment="Qt::AlignHCenter">
             <widget class="QLabel" name="tooltip">
              <property name="text">
-              <string>TextLabel</string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -71,7 +71,7 @@
            <item>
             <widget class="QPushButton" name="nextButton">
              <property name="text">
-              <string>PushButton</string>
+              <string>В главное меню</string>
              </property>
             </widget>
            </item>
@@ -94,7 +94,7 @@
            <item>
             <widget class="QPushButton" name="backButton">
              <property name="text">
-              <string>PushButton</string>
+              <string>Следующий уровень</string>
              </property>
             </widget>
            </item>

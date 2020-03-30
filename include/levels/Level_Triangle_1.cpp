@@ -7,17 +7,27 @@
 
 #include <QMouseEvent>
 #include <QtMath> // qFabs
-			
+#include <QMediaPlayer>
+#include "include/Configuration.h"
+
 Level_Triangle_1::Level_Triangle_1(Matrix* matrix, GraphicView* view, GraphicScene* scene) :
 	_matrix(matrix),
 	_view(view),
-	_scene(scene)
+	_scene(scene),
+	_mediaPress(new QMediaPlayer)
 {
 	this->Level_Triangle_1::startLevel();
-	//QCoreApplication::instance()->installEventFilter(this);
+
+	_mediaPress->setMedia(QUrl(Configuration::AUDIO_PRESS_MOUSE_LEFT));
 
 	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_1::paintPointOnGraphicView);
 	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_1::isInsidePolygon);
+	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_1::playPressSound);
+}
+
+Level_Triangle_1::~Level_Triangle_1()
+{
+	delete _mediaPress;
 }
 
 void Level_Triangle_1::paintLevel()
@@ -89,6 +99,11 @@ void Level_Triangle_1::isInsidePolygon(QMouseEvent* event)
 
 	if (++counter == 10)
 		this->showHint();
+}
+
+void Level_Triangle_1::playPressSound()
+{
+	_mediaPress->play();
 }
 
 void Level_Triangle_1::startLevel()

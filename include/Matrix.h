@@ -29,12 +29,14 @@ protected:
 
 public:
     void drawMatrix6x6(QPaintEvent* event) const;
+    void chooseLevel();
 
     Q_SLOT void startLevelTriangles();
     Q_SLOT void paintPointOnGraphicView(QMouseEvent* event);
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;
+    void setMedia();
 
 public:
     Ui::Matrix*     ui;
