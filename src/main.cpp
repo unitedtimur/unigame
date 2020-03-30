@@ -16,7 +16,9 @@ int main(int argc, char** argv)
 	//UniMainWindow test;
 	//
 	//test.show();
-	
+
+	//Matrix::instance()->show();
+
 	Matrix matrix;
 	matrix.show();
 

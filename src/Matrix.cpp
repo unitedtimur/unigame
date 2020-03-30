@@ -1,7 +1,7 @@
-﻿#include "include/Configuration.h"
-#include "include/Matrix.h"
-#include "include/LevelTriangles.h"
+﻿#include "include/Matrix.h"
+#include "include/Configuration.h"
 #include "include/GraphicScene.h"
+#include "include/GraphicView.h"
 #include "ui_Matrix.h"
 
 
@@ -9,14 +9,19 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
+#include "include/levels/ILevel.h"
+#include "include/levels/Level_Triangle_1.h"
 
 Matrix::Matrix(QWidget* parent) :
 	QMainWindow(parent),
 	ui(new Ui::Matrix),
 	scene(new GraphicScene),
-	view(new GraphicView)
+	view(new GraphicView),
+	level(nullptr)
 {
 	ui->setupUi(this);
+
+	QCoreApplication::instance()->installEventFilter(this);
 
 	// Добавление GraphicView на viewLayout
 	ui->viewLayout->addWidget(view);
@@ -31,12 +36,13 @@ Matrix::Matrix(QWidget* parent) :
 	// Запрет scroll'ов ( вертикального и горизонтального )
 	view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	//view->setDragMode(QGraphicsView::RubberBandDrag);
-	
+	view->setDragMode(QGraphicsView::RubberBandDrag);
+
 	// Сигнал нажатия мыши на GraphicView и слот отрисовки точки
-	connect(view, &GraphicView::mouseClicked, this, &Matrix::paintPointOnGraphicView);
+	//connect(view, &GraphicView::mouseClicked, this, &Matrix::paintPointOnGraphicView);
 
 	startLevelTriangles();
+
 }
 
 Matrix::~Matrix()
@@ -44,11 +50,29 @@ Matrix::~Matrix()
 	delete ui;
 	delete scene;
 	delete view;
+	delete level;
+}
+
+Matrix* Matrix::instance()
+{
+	static Matrix obj(nullptr);
+	return &obj;
 }
 
 void Matrix::paintEvent(QPaintEvent* event)
 {
 	
+}
+
+bool Matrix::eventFilter(QObject* watched, QEvent* event)
+{
+	if (event->type() == QEvent::KeyPress)
+	{
+		if (level != nullptr)
+			return level->checkLevel(watched, event);
+	}
+
+	return false;
 }
 
 void Matrix::drawMatrix6x6(QPaintEvent* event) const
@@ -68,13 +92,14 @@ void Matrix::drawMatrix6x6(QPaintEvent* event) const
 void Matrix::startLevelTriangles()
 {
 	this->drawMatrix6x6(nullptr);
-	level = new LevelTriangles(this, scene, view);
+
+	level = new Level_Triangle_1(this, view, scene);
 }
 
 void Matrix::paintPointOnGraphicView(QMouseEvent* event)		
 {
 	qDebug() << event->pos();
-
+	
 	double rad = 10;
 	scene->addEllipse(QRectF(event->x() - rad, event->y() - rad, rad * 2.0, rad * 2.0), QPen(), QBrush(Qt::yellow));
 }

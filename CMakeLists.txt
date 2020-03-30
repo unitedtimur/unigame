@@ -25,11 +25,17 @@ set(project_headers
 	include/UniMainWindow.h
 	include/StartMenu.h
 	include/Configuration.h
-	include/Matrix.h
-	include/ILevel.h
-	include/LevelTriangles.h
 	include/GraphicScene.h
 	include/GraphicView.h
+	include/Matrix.h
+
+	# Triangles levels
+
+	include/levels/ILevel.h
+	include/levels/Level_Triangle_1.h
+	include/levels/Level_Triangle_1.cpp
+	#include/levels/LevelTriangles.h
+	#include/levels/LevelTriangles.cpp
 )
 
 set(project_sources 
@@ -37,7 +43,6 @@ set(project_sources
 	src/UniMainWindow.cpp
 	src/StartMenu.cpp
 	src/Matrix.cpp
-	src/LevelTriangles.cpp
 	src/GraphicScene.cpp
 	src/GraphicView.cpp
 )

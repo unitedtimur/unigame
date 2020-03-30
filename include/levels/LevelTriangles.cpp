@@ -1,4 +1,4 @@
-﻿#include "include/LevelTriangles.h"
+﻿#include "include/levels/LevelTriangles.h"
 #include "ui_Matrix.h"
 
 #include "include/GraphicScene.h"
@@ -7,12 +7,14 @@
 
 #include <QDebug>
 #include <QMouseEvent>
+#include <QtMath> // qFabs
 
 LevelTriangles::LevelTriangles(Matrix* matrix, GraphicScene* scene, GraphicView* view) :
 	matrix(matrix),
 	scene(scene),
 	view(view),
-	polygon(new QPolygon)
+	//polygon(new QPolygon),
+	levels(Levels::No_Level)
 {
 	LevelTriangles::level_1();
 	QCoreApplication::instance()->installEventFilter(this);
@@ -21,7 +23,7 @@ LevelTriangles::LevelTriangles(Matrix* matrix, GraphicScene* scene, GraphicView*
 
 void LevelTriangles::paintLevel()
 {
-	delete polygon;
+	//delete polygon;
 }
 
 void LevelTriangles::paintPoint(const QPoint& point)
@@ -39,8 +41,15 @@ void LevelTriangles::showTooltip()
 {
 }
 
+bool LevelTriangles::inArea(const QPoint& first, const QPoint& second, const qint32& epsilon)
+{
+	return (qFabs(first.x() - second.x()) < epsilon && qFabs(first.y() - second.y()) < epsilon);
+}
+
 void LevelTriangles::level_1()
 {
+	levels = Levels::Level_1;
+
 	matrix->ui->tooltip->setText(QString::fromUtf8(u8"Соедините три данные точки так,\nчтобы получился равнобедренный\nтреугольник."));
 
 	QVector<QPoint> points;
@@ -66,38 +75,45 @@ void LevelTriangles::level_1()
 		}
 	}
 
-	polygon->append(points);
+	for (const auto& point : points)
+	{
+		polygon.push_back(point);
+	}
 
 	connect(view, &GraphicView::mouseClicked, this, &LevelTriangles::insidePolygon);
 }
 
+void LevelTriangles::level_1_after()
+{
+	disconnect(view, &GraphicView::mouseClicked, this, &LevelTriangles::insidePolygon);
+
+	//auto iterator = polygon.begin();
+	//
+	//scene->addLine(QLineF(QPointF(iterator), (iterator + 1)), QPen(Qt::red, 1));
+	//scene->addLine(QLineF((iterator + 1).key(), (iterator + 2).key()), QPen(Qt::red, 1));
+	//scene->addLine(QLineF((iterator + 2).key(), iterator.key()), QPen(Qt::red, 1));
+
+
+	scene->addLine(QLineF(QPointF(polygon[0]), QPointF(polygon[1])), QPen(Qt::red, 2));
+	scene->addLine(QLineF(QPointF(polygon[1]), QPointF(polygon[2])), QPen(Qt::red, 2));
+	scene->addLine(QLineF(QPointF(polygon[2]), QPointF(polygon[0])), QPen(Qt::red, 2));
+
+	levels = Levels::No_Level;
+}
+
 void LevelTriangles::insidePolygon(QMouseEvent* event)
 {
-	if (polygon->containsPoint(QPoint(event->x(), event->y()), Qt::FillRule::OddEvenFill))
+	for (auto it = polygon.begin(); it != polygon.end(); ++it)
 	{
-		if (lines.size() == 3)
-			lines.clear();
-
-		lines.push_back(event->pos());
+		//if (LevelTriangles::inArea(event->pos(), it.key()) && it.value() != Condition::InArea)
+		//{
+		//	//it.value() = Condition::InArea;
+		//}
 	}
 }
 
 bool LevelTriangles::event(QEvent* event)
 {
-	if (event->type() == QEvent::KeyPress)
-	{
-		QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-
-		if (keyEvent->key() == Qt::Key_Space)
-		{
-			for (auto i = 0; i < lines.size(); ++i)
-			{
-				scene->addLine(QLineF(QPointF(lines[i]), QPointF(lines[i + 1])));
-			}
-
-			return true;
-		}
-	}
 
 	return false;
 }
@@ -106,23 +122,19 @@ bool LevelTriangles::eventFilter(QObject* watched, QEvent* event)
 {
 	if (event->type() == QEvent::KeyPress)
 	{
-		QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+		QKeyEvent* keyEvent = dynamic_cast<QKeyEvent*>(event);
 
 		if (keyEvent->key() == Qt::Key_Space)
 		{
-			for (const auto& line : lines)
+			switch (levels)
 			{
-				//if (!polygon->contains(line))
-				//{
-				//	return false;
-				//}
+			case Levels::Level_1:
+				this->level_1_after();
+				return true;
 
-				
+			default:
+				levels = Levels::No_Level;
 			}
-			scene->addLine(QLineF(polygon->point(0), polygon->point(1)));
-			scene->addLine(QLineF(polygon->point(1), polygon->point(2)));
-			scene->addLine(QLineF(polygon->point(2), polygon->point(0)));
-			return true;
 		}
 	}
 
