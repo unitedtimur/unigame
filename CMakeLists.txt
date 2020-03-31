@@ -34,6 +34,8 @@ set(project_headers
 	include/levels/ILevel.h
 	include/levels/Level_Triangle_1.h
 	include/levels/Level_Triangle_1.cpp
+	include/levels/Level_Triangle_2.h
+	include/levels/Level_Triangle_2.cpp
 	#include/levels/LevelTriangles.h
 	#include/levels/LevelTriangles.cpp
 )

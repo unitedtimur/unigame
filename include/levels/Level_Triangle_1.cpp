@@ -1,5 +1,5 @@
 ﻿#include "include/levels/Level_Triangle_1.h"
-
+#include "include/Configuration.h"
 #include "include/Matrix.h"
 #include "ui_Matrix.h"
 #include "include/GraphicView.h"
@@ -8,17 +8,18 @@
 #include <QMouseEvent>
 #include <QtMath> // qFabs
 #include <QMediaPlayer>
-#include "include/Configuration.h"
 
 Level_Triangle_1::Level_Triangle_1(Matrix* matrix, GraphicView* view, GraphicScene* scene) :
 	_matrix(matrix),
 	_view(view),
 	_scene(scene),
-	_mediaPress(new QMediaPlayer)
+	_mediaPress(new QMediaPlayer),
+	_counter(0)
 {
 	this->Level_Triangle_1::startLevel();
 
 	_mediaPress->setMedia(QUrl(Configuration::AUDIO_PRESS_MOUSE_LEFT));
+	_mediaPress->setPlaybackRate(3);
 
 	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_1::paintPointOnGraphicView);
 	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_1::isInsidePolygon);
@@ -86,8 +87,6 @@ void Level_Triangle_1::paintPointOnGraphicView(QMouseEvent* event)
 
 void Level_Triangle_1::isInsidePolygon(QMouseEvent* event)
 {
-	static qint32 counter = 0;
-
 	for (qint32 i = 0; i < _polygon._points.size(); ++i)
 	{
 		if (inArea(_polygon._points[i], event->pos()))
@@ -97,7 +96,8 @@ void Level_Triangle_1::isInsidePolygon(QMouseEvent* event)
 		}
 	}
 
-	if (++counter == 10)
+	// Если пользователь 10 раз не попал в нужные точки, то показываем подсказку
+	if (++_counter == 10)
 		this->showHint();
 }
 
@@ -118,12 +118,6 @@ void Level_Triangle_1::startLevel()
 void Level_Triangle_1::showHint()
 {
 	_matrix->ui->hintLabel->setText(QString::fromUtf8(u8"Подсказка\nЧтобы решить уровень достаточно единожды попасть в каждую из точек!"));
-
-	// TODO Решить вопрос со звуком в подсказке
-	QMediaPlayer* audioHint = new QMediaPlayer;
-	audioHint->setMedia(QUrl(Configuration::AUDIO_HINT));
-	audioHint->play();
-	delete audioHint;
 }
 
 bool Level_Triangle_1::checkLevel(QObject* watched, QEvent* event)
@@ -136,7 +130,7 @@ bool Level_Triangle_1::checkLevel(QObject* watched, QEvent* event)
 		{
 			for (const auto& it : _polygon._isPressed)
 			{
-				if (it == false)
+				if (!it)
 					return false;
 			}
 
@@ -146,6 +140,8 @@ bool Level_Triangle_1::checkLevel(QObject* watched, QEvent* event)
 			return true;
 		}
 	}
+
+	return false;
 }
 
 void Level_Triangle_1::finishLevel()

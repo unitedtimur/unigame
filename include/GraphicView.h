@@ -9,6 +9,7 @@ class GraphicView : public QGraphicsView
 
 public:
 	Q_SIGNAL void mouseClicked(QMouseEvent* event);
+	Q_SIGNAL void mouseMoved(QMouseEvent* event);
 
 protected:
 	void mousePressEvent(QMouseEvent* event) override;

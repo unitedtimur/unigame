@@ -5,6 +5,7 @@
 #include "include/GraphicView.h"
 #include "include/levels/ILevel.h"
 #include "include/levels/Level_Triangle_1.h"
+#include "include/levels/Level_Triangle_2.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -12,6 +13,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QComboBox>
 
 Matrix::Matrix(QWidget* parent) :
 	QMainWindow(parent),
@@ -19,9 +21,11 @@ Matrix::Matrix(QWidget* parent) :
 	_scene(new GraphicScene),
 	_view(new GraphicView),
 	_level(nullptr),
-	_audio(new QMediaPlayer)
+	_audio(new QMediaPlayer),
+	_playlist(new QMediaPlaylist)
 {
 	ui->setupUi(this);
+	_view->setScene(_scene);
 
 	QCoreApplication::instance()->installEventFilter(this);
 
@@ -47,7 +51,8 @@ Matrix::Matrix(QWidget* parent) :
 	this->setMedia();
 
 	// Выбираем уровень
-	connect(ui->Level_1_Button, &QPushButton::clicked, this, &Matrix::chooseLevel);
+	//connect(ui->Level_1_Button, &QPushButton::clicked, this, &Matrix::chooseLevel);
+	connect(ui->levelTianglesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Matrix::chooseLevel);
 }
 
 Matrix::~Matrix()
@@ -57,17 +62,7 @@ Matrix::~Matrix()
 	delete _view;
 	delete _level;
 	delete _audio;
-}
-
-Matrix* Matrix::instance()
-{
-	static Matrix obj(nullptr);
-	return &obj;
-}
-
-void Matrix::paintEvent(QPaintEvent* event)
-{
-	
+	delete _playlist;
 }
 
 bool Matrix::eventFilter(QObject* watched, QEvent* event)
@@ -81,7 +76,7 @@ bool Matrix::eventFilter(QObject* watched, QEvent* event)
 	return false;
 }
 
-void Matrix::drawMatrix6x6(QPaintEvent* event) const
+void Matrix::drawMatrix6x6() const
 {
 	const auto width = _view->width();
 	const auto height = _view->height();
@@ -91,25 +86,51 @@ void Matrix::drawMatrix6x6(QPaintEvent* event) const
 		_scene->addLine(qreal(i / 6.0) * width, 0, qreal(i / 6.0) * width, height);
 		_scene->addLine(0, qreal(i / 6.0) * height, width, qreal(i / 6.0) * height);
 	}
-
-	_view->setScene(_scene);
 }
 
-void Matrix::chooseLevel()
+void Matrix::clearGameWindow()
 {
-	this->drawMatrix6x6(nullptr);
+	delete _level;
+	_level = nullptr;
 
-	_level = new Level_Triangle_1(this, _view, _scene);
+	// Очищаем сцену
+	_scene->clear();
+
+	// Очищаем окно описания уровня
+	ui->tooltip->clear();
+
+	// Очищаем окно подсказки уровня
+	ui->hintLabel->clear();
 }
 
-void Matrix::startLevelTriangles()
+void Matrix::chooseLevel(qint32 level)
 {
-	this->drawMatrix6x6(nullptr);
+	switch (level)
+	{
+		// Первый уровень
+	case 1:
+		this->clearGameWindow();
+		this->drawMatrix6x6();
+		_level = new Level_Triangle_1(this, _view, _scene);
+		break;
 
-	_level = new Level_Triangle_1(this, _view, _scene);
+		// Второй уровень
+	case 2:
+		this->clearGameWindow();
+		this->drawMatrix6x6();
+		_level = new Level_Triangle_2(this, _view, _scene);
+		break;
+
+		// Если не выбран уровень
+	default:
+		this->clearGameWindow();
+		delete _level;
+		_level = nullptr;
+		break;
+	}
 }
 
-void Matrix::paintPointOnGraphicView(QMouseEvent* event)		
+void Matrix::paintPointOnGraphicView(QMouseEvent* event)
 {
 	qDebug() << event->pos();
 	
@@ -124,7 +145,10 @@ void Matrix::mousePressEvent(QMouseEvent* event)
 
 void Matrix::setMedia()
 {
-	_audio->setMedia(QUrl(Configuration::AUDIO_MATRIX));
+	_playlist->addMedia(QUrl(Configuration::AUDIO_MATRIX));
+	_playlist->setPlaybackMode(QMediaPlaylist::Loop);
+	_audio->setPlaylist(_playlist);
 	_audio->setVolume(5);
+	_audio->setPlaybackRate(1.5);
 	_audio->play();
 }

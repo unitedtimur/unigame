@@ -2,7 +2,6 @@
 #define LEVEL_TRIANGLE_1
 
 #include "include/levels/ILevel.h"
-#include <QPolygon>
 
 class QMouseEvent;
 class Matrix;
@@ -10,7 +9,7 @@ class GraphicView;
 class GraphicScene;
 class QMediaPlayer;
 
-class Level_Triangle_1 : public ILevel
+class Level_Triangle_1 final : public ILevel
 {
 	Q_OBJECT
 
@@ -41,12 +40,13 @@ private:
 	GraphicScene* _scene;
 	QMediaPlayer* _mediaPress;
 
-	//QPolygon polygon;
 	struct Polygon
 	{
 		QVector<QPoint> _points;
 		QVector<bool>	_isPressed;
 	} _polygon;
+
+	qint32 _counter;
 };
 
 #endif // LEVEL_TRIANGLE_1
