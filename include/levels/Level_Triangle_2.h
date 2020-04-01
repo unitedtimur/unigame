@@ -24,9 +24,11 @@ protected:
 	void showHint() override;
 	void startLevel() override;
 	bool checkLevel(QObject* watched, QEvent* event) override;
+	bool inArea(const QPoint& first, const QPoint& second, const qint32& epsilon = 15);
 	void finishLevel() override;
 
 	Q_SLOT void paintPointOnGraphicView(QMouseEvent* event);
+	Q_SLOT void paintLineOnGraphicView(QMouseEvent* event);
 	Q_SLOT void isInsidePolygon(QMouseEvent* event);
 	Q_SLOT void playPressSound();
 

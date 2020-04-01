@@ -4,10 +4,7 @@
 
 void GraphicView::mousePressEvent(QMouseEvent* event)
 {
-	if (event->button() == Qt::MouseButton::LeftButton)
-	{
-		Q_EMIT this->mouseClicked(event);
-	}
+	Q_EMIT this->mouseClicked(event);	
 }
 
 void GraphicView::mouseMoveEvent(QMouseEvent* event)
