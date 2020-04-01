@@ -14,6 +14,7 @@
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QComboBox>
+#include <QMessageBox>
 
 Matrix::Matrix(QWidget* parent) :
 	QMainWindow(parent),
@@ -25,6 +26,41 @@ Matrix::Matrix(QWidget* parent) :
 	_playlist(new QMediaPlaylist)
 {
 	ui->setupUi(this);
+
+	// Инициализация статистики уровней
+	this->initLevelsStatistic();
+
+	this->resize(Configuration::WIDTH_MAIN_WINDOW, Configuration::HEIGHT_MAIN_WINDOW);
+	this->setFixedSize(Configuration::WIDTH_MAIN_WINDOW, Configuration::HEIGHT_MAIN_WINDOW);
+
+	this->setWindowTitle("UniGame");
+	this->setWindowIcon(QIcon(Configuration::UNIGAME));
+
+	int screenHeight = this->height();
+	int screenWidth = this->width();
+	
+	/*
+	 * Установим иконки для действий
+	 */
+	ui->actionHowToPlay->setIcon(QIcon(Configuration::HOWTOPLAY));
+	ui->actionAbout->setIcon(QIcon(Configuration::ABOUT));
+	ui->actionExit->setIcon(QIcon(Configuration::EXIT));
+
+	/*
+	 * Опции
+	 *	Как играть
+	 *	О создателе
+	 *	Выйти
+	 *	
+	 * Статистика уровней
+	 *	Пройденные
+	 *	Очистить статистику
+	 */
+	connect(ui->actionHowToPlay, &QAction::triggered, this, &Matrix::actionHowToPlay_triggered);
+	connect(ui->actionAbout, &QAction::triggered, this, &Matrix::actionAbout_triggered);
+	connect(ui->actionExit, &QAction::triggered, this, &Matrix::actionExit_triggered);
+	connect(ui->actionLevelsStatistics, &QAction::triggered, this, &Matrix::actionLevelsStatistic_triggered);
+
 	_view->setScene(_scene);
 
 	QCoreApplication::instance()->installEventFilter(this);
@@ -44,14 +80,10 @@ Matrix::Matrix(QWidget* parent) :
 	_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	_view->setDragMode(QGraphicsView::RubberBandDrag);
 
-	// Сигнал нажатия мыши на GraphicView и слот отрисовки точки
-	//connect(view, &GraphicView::mouseClicked, this, &Matrix::paintPointOnGraphicView);
-
 	// Фоновая музыка
 	this->setMedia();
 
 	// Выбираем уровень
-	//connect(ui->Level_1_Button, &QPushButton::clicked, this, &Matrix::chooseLevel);
 	connect(ui->levelTianglesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Matrix::chooseLevel);
 }
 
@@ -86,6 +118,41 @@ void Matrix::drawMatrix6x6() const
 		_scene->addLine(qreal(i / 6.0) * width, 0, qreal(i / 6.0) * width, height);
 		_scene->addLine(0, qreal(i / 6.0) * height, width, qreal(i / 6.0) * height);
 	}
+}
+
+void Matrix::actionHowToPlay_triggered()
+{
+	QMessageBox::information(this, QString::fromUtf8(u8"Как играть?"), QString::fromUtf8(u8"Если вы выполнили задание уровня, нажмите 'Space' на клавиатуре."));
+}
+
+void Matrix::actionExit_triggered()
+{
+	QCoreApplication::exit();
+}
+
+void Matrix::actionAbout_triggered()
+{
+	QMessageBox::about(this, QString::fromUtf8(u8"О создателе"), "<a href='https://lihomanov.me'>by UnitedTimur (c)</a>");
+}
+
+void Matrix::actionLevelsStatistic_triggered()
+{
+	QString res;
+
+	for (auto it = _levelsStatistic.begin(); it != _levelsStatistic.end(); ++it)
+		res += it.key() + ' ' + QString(it.value()).to + '\n';
+
+	QMessageBox::information(this, QString::fromUtf8(u8"Пройденные уровни"), res);
+}
+
+void Matrix::actionClearStatistic_triggered()
+{
+}
+
+void Matrix::initLevelsStatistic()
+{
+	_levelsStatistic.insert(QString::fromUtf8(u8"Треугольники уровень 1"), false);
+	_levelsStatistic.insert(QString::fromUtf8(u8"Треугольники уровень 2"), false);
 }
 
 void Matrix::clearGameWindow()

@@ -2,6 +2,7 @@
 #define MATRIX_H
 
 #include <QMainWindow>
+#include <QMap>
 
 class QGraphicsSceneMouseEvent;
 class QMediaPlaylist;
@@ -22,8 +23,16 @@ public:
     explicit Matrix(QWidget* parent = nullptr);
     ~Matrix();
 
-protected:
     void drawMatrix6x6() const;
+
+    Q_SLOT void actionHowToPlay_triggered();
+    Q_SLOT void actionExit_triggered();
+    Q_SLOT void actionAbout_triggered();
+    Q_SLOT void actionLevelsStatistic_triggered();
+    Q_SLOT void actionClearStatistic_triggered();
+
+protected:
+    void initLevelsStatistic();
     void clearGameWindow();
     void setMedia();
 	void mousePressEvent(QMouseEvent* event) override;
@@ -39,6 +48,7 @@ public:
     ILevel*         _level;
     QMediaPlayer*   _audio;
     QMediaPlaylist* _playlist;
+    QMap<QString, bool> _levelsStatistic;
 };
 
 #endif // MATRIX_H

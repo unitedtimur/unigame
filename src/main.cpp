@@ -13,12 +13,6 @@ int main(int argc, char** argv)
 
 	QApplication app(argc, argv);
 
-	//UniMainWindow test;
-	//
-	//test.show();
-
-	//Matrix::instance()->show();
-
 	Matrix matrix;
 	matrix.show();
 
