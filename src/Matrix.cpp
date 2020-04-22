@@ -26,8 +26,6 @@
 #include <QHeaderView>
 #include <QTemporaryFile>
 #include <QDir>
-#include <QSaveFile>
-#include <fstream>
 
 Matrix::Matrix(QWidget* parent) :
 	QMainWindow(parent),
@@ -43,15 +41,25 @@ Matrix::Matrix(QWidget* parent) :
 {
 	ui->setupUi(this);
 
+
+	// Устанавливаем стили
+	this->_startButton->setStyleSheet("color: #a675b3; text-align: center; line-height: 20px; font: normal 17px arial;");
+	this->_statisticButton->setStyleSheet(_startButton->styleSheet());
+	this->_view->setStyleSheet("background: rgb(111, 241, 255);");
+	this->ui->menuButton->setStyleSheet(_startButton->styleSheet());
+	this->ui->levelButton->setStyleSheet(_startButton->styleSheet());
+	this->ui->triangleGroupBox->setStyleSheet(_startButton->styleSheet());
+	this->ui->lengthAndDistanceGroupBox->setStyleSheet(_startButton->styleSheet());
+
 	// Скрываем окно игры
 	this->ui->centralwidget->hide();
 	{
-		_startButton->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 100, Configuration::HEIGHT_MATRIX_WINDOW / 2, 200, 50);
-		_statisticButton->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 100, Configuration::HEIGHT_MATRIX_WINDOW / 2 + 80, 200, 50);
+		this->_startButton->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 100, Configuration::HEIGHT_MATRIX_WINDOW / 2, 200, 50);
+		this->_statisticButton->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 100, Configuration::HEIGHT_MATRIX_WINDOW / 2 + 80, 200, 50);
 
-		connect(_startButton, &QPushButton::clicked, this, &Matrix::startGame);
-		connect(_statisticButton, &QPushButton::clicked, this, &Matrix::showStatistic);
-		connect(ui->menuButton, &QPushButton::clicked, this, &Matrix::toMenu);
+		connect(this->_startButton, &QPushButton::clicked, this, &Matrix::startGame);
+		connect(this->_statisticButton, &QPushButton::clicked, this, &Matrix::showStatistic);
+		connect(this->ui->menuButton, &QPushButton::clicked, this, &Matrix::toMenu);
 	}
 
 	// Инициализация статистики уровней
@@ -68,9 +76,9 @@ Matrix::Matrix(QWidget* parent) :
 	/*
 	 * Установим иконки для действий
 	 */
-	ui->actionHowToPlay->setIcon(QIcon(Configuration::HOWTOPLAY));
-	ui->actionAbout->setIcon(QIcon(Configuration::ABOUT));
-	ui->actionExit->setIcon(QIcon(Configuration::EXIT));
+	this->ui->actionHowToPlay->setIcon(QIcon(Configuration::HOWTOPLAY));
+	this->ui->actionAbout->setIcon(QIcon(Configuration::ABOUT));
+	this->ui->actionExit->setIcon(QIcon(Configuration::EXIT));
 
 	/*
 	 * Опции
@@ -82,30 +90,30 @@ Matrix::Matrix(QWidget* parent) :
 	 *	Пройденные
 	 *	Очистить статистику
 	 */
-	connect(ui->actionHowToPlay, &QAction::triggered, this, &Matrix::actionHowToPlay_triggered);
-	connect(ui->actionAbout, &QAction::triggered, this, &Matrix::actionAbout_triggered);
-	connect(ui->actionExit, &QAction::triggered, this, &Matrix::actionExit_triggered);
-	connect(ui->actionLevelsStatistics, &QAction::triggered, this, &Matrix::showStatistic);
+	connect(this->ui->actionHowToPlay, &QAction::triggered, this, &Matrix::actionHowToPlay_triggered);
+	connect(this->ui->actionAbout, &QAction::triggered, this, &Matrix::actionAbout_triggered);
+	connect(this->ui->actionExit, &QAction::triggered, this, &Matrix::actionExit_triggered);
+	connect(this->ui->actionLevelsStatistics, &QAction::triggered, this, &Matrix::showStatistic);
 
 	// Устанавливаем сцену
-	_view->setScene(_scene);
+	this->_view->setScene(this->_scene);
 
 	QCoreApplication::instance()->installEventFilter(this);
 
 	// Добавление GraphicView на viewLayout
-	ui->viewLayout->addWidget(_view);
+	this->ui->viewLayout->addWidget(this->_view);
 
 	// Фиксация размера окна ( запрет на изменение )
 	this->setMinimumSize(QSize(Configuration::WIDTH_MATRIX_WINDOW, Configuration::HEIGHT_MATRIX_WINDOW));
 	this->setMaximumSize(QSize(Configuration::WIDTH_MATRIX_WINDOW, Configuration::HEIGHT_MATRIX_WINDOW));
 
-	_view->setMinimumSize(500, 400);
-	_view->setMaximumSize(500, 400);
+	this->_view->setMinimumSize(500, 400);
+	this->_view->setMaximumSize(500, 400);
 
 	// Запрет scroll'ов ( вертикального и горизонтального )
-	_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	_view->setDragMode(QGraphicsView::RubberBandDrag);
+	this->_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	this->_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	this->_view->setDragMode(QGraphicsView::RubberBandDrag);
 
 	// Фоновая музыка
 	this->setMedia();
@@ -114,8 +122,8 @@ Matrix::Matrix(QWidget* parent) :
 	this->ui->levelButton->hide();
 
 	// Сигналы и слоты для выбора уровней
-	connect(ui->levelTianglesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Matrix::chooseTriangleLevel);
-	connect(ui->levelLengthAndDistanceComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Matrix::chooseLengthAndDistanceLevel);
+	connect(this->ui->levelTianglesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Matrix::chooseTriangleLevel);
+	connect(this->ui->levelLengthAndDistanceComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Matrix::chooseLengthAndDistanceLevel);
 }
 
 Matrix::~Matrix()
