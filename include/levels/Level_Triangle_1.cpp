@@ -149,6 +149,8 @@ void Level_Triangle_1::finishLevel()
 	_scene->addLine(QLineF(QPointF(_polygon._points[0]), QPointF(_polygon._points[1])), QPen(Qt::red, 2));
 	_scene->addLine(QLineF(QPointF(_polygon._points[1]), QPointF(_polygon._points[2])), QPen(Qt::red, 2));
 	_scene->addLine(QLineF(QPointF(_polygon._points[2]), QPointF(_polygon._points[0])), QPen(Qt::red, 2));
+
+	_matrix->changeStatistic(QStringList() << QString::fromUtf8(u8"Равнобедренные треугольники") << QString::fromUtf8(u8"Уровень 1") << QString::fromUtf8(u8"Пройден"));
 }
 
 bool Level_Triangle_1::inArea(const QPoint& first, const QPoint& second, const qint32& epsilon)

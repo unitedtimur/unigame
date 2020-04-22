@@ -1,11 +1,16 @@
 ﻿#include "include/Matrix.h"
 #include "ui_Matrix.h"
-#include "include/Configuration.h"
+#include "include/Functions.h"
 #include "include/GraphicScene.h"
 #include "include/GraphicView.h"
+#include "include/Configuration.h"
 #include "include/levels/ILevel.h"
 #include "include/levels/Level_Triangle_1.h"
 #include "include/levels/Level_Triangle_2.h"
+#include "include/levels/Level_Triangle_3.h"
+#include "include/levels/Level_LengthAndDistance_1.h"
+#include "include/levels/Level_LengthAndDistance_2.h"
+#include "include/levels/Level_LengthAndDistance_3.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -15,6 +20,14 @@
 #include <QMediaPlaylist>
 #include <QComboBox>
 #include <QMessageBox>
+#include <QStandardItemModel>
+#include <QTableView>
+#include <QTableWidget>
+#include <QHeaderView>
+#include <QTemporaryFile>
+#include <QDir>
+#include <QSaveFile>
+#include <fstream>
 
 Matrix::Matrix(QWidget* parent) :
 	QMainWindow(parent),
@@ -23,22 +36,35 @@ Matrix::Matrix(QWidget* parent) :
 	_view(new GraphicView),
 	_level(nullptr),
 	_audio(new QMediaPlayer),
-	_playlist(new QMediaPlaylist)
+	_playlist(new QMediaPlaylist),
+	_startButton(new QPushButton(QString::fromUtf8(u8"Начать"), this)),
+	_statisticButton(new QPushButton(QString::fromUtf8(u8"Статистика"), this)),
+	_statistic(new QTableWidget)
 {
 	ui->setupUi(this);
 
+	// Скрываем окно игры
+	this->ui->centralwidget->hide();
+	{
+		_startButton->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 100, Configuration::HEIGHT_MATRIX_WINDOW / 2, 200, 50);
+		_statisticButton->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 100, Configuration::HEIGHT_MATRIX_WINDOW / 2 + 80, 200, 50);
+
+		connect(_startButton, &QPushButton::clicked, this, &Matrix::startGame);
+		connect(_statisticButton, &QPushButton::clicked, this, &Matrix::showStatistic);
+		connect(ui->menuButton, &QPushButton::clicked, this, &Matrix::toMenu);
+	}
+
 	// Инициализация статистики уровней
-	this->initLevelsStatistic();
-
+	this->loadStatistic();
+	// Изменяем размер окна
 	this->resize(Configuration::WIDTH_MAIN_WINDOW, Configuration::HEIGHT_MAIN_WINDOW);
+	// Фиксируем размер окна
 	this->setFixedSize(Configuration::WIDTH_MAIN_WINDOW, Configuration::HEIGHT_MAIN_WINDOW);
-
-	this->setWindowTitle("UniGame");
+	// Устанавливаем имя окну
+	this->setWindowTitle(Configuration::PROJECT_NAME);
+	// Устанавливаем иконку окну
 	this->setWindowIcon(QIcon(Configuration::UNIGAME));
 
-	int screenHeight = this->height();
-	int screenWidth = this->width();
-	
 	/*
 	 * Установим иконки для действий
 	 */
@@ -51,7 +77,7 @@ Matrix::Matrix(QWidget* parent) :
 	 *	Как играть
 	 *	О создателе
 	 *	Выйти
-	 *	
+	 *
 	 * Статистика уровней
 	 *	Пройденные
 	 *	Очистить статистику
@@ -59,8 +85,9 @@ Matrix::Matrix(QWidget* parent) :
 	connect(ui->actionHowToPlay, &QAction::triggered, this, &Matrix::actionHowToPlay_triggered);
 	connect(ui->actionAbout, &QAction::triggered, this, &Matrix::actionAbout_triggered);
 	connect(ui->actionExit, &QAction::triggered, this, &Matrix::actionExit_triggered);
-	connect(ui->actionLevelsStatistics, &QAction::triggered, this, &Matrix::actionLevelsStatistic_triggered);
+	connect(ui->actionLevelsStatistics, &QAction::triggered, this, &Matrix::showStatistic);
 
+	// Устанавливаем сцену
 	_view->setScene(_scene);
 
 	QCoreApplication::instance()->installEventFilter(this);
@@ -83,18 +110,25 @@ Matrix::Matrix(QWidget* parent) :
 	// Фоновая музыка
 	this->setMedia();
 
-	// Выбираем уровень
-	connect(ui->levelTianglesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Matrix::chooseLevel);
+	// Скрытие вспомогательной кнопки для уровней
+	this->ui->levelButton->hide();
+
+	// Сигналы и слоты для выбора уровней
+	connect(ui->levelTianglesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Matrix::chooseTriangleLevel);
+	connect(ui->levelLengthAndDistanceComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &Matrix::chooseLengthAndDistanceLevel);
 }
 
 Matrix::~Matrix()
 {
+	this->saveStatistic();
+
 	delete ui;
 	delete _scene;
 	delete _view;
 	delete _level;
 	delete _audio;
 	delete _playlist;
+	delete _statistic;
 }
 
 bool Matrix::eventFilter(QObject* watched, QEvent* event)
@@ -112,12 +146,147 @@ void Matrix::drawMatrix6x6() const
 {
 	const auto width = _view->width();
 	const auto height = _view->height();
-
+	// Отрисовываем матрицу на сцене
 	for (qint32 i = 0; i < 6; ++i)
 	{
 		_scene->addLine(qreal(i / 6.0) * width, 0, qreal(i / 6.0) * width, height);
 		_scene->addLine(0, qreal(i / 6.0) * height, width, qreal(i / 6.0) * height);
 	}
+}
+
+void Matrix::startGame()
+{
+	// Показываем окно игры
+	this->ui->centralwidget->show();
+	// Скрываем кнопки меню
+	this->_startButton->hide();
+	this->_statisticButton->hide();
+	// Обновляем окно игры
+	this->ui->levelTianglesComboBox->setCurrentIndex(0);
+	this->ui->levelLengthAndDistanceComboBox->setCurrentIndex(0);
+	this->clearGameWindow();
+}
+
+void Matrix::toMenu()
+{
+	// Скрываем окно игры
+	this->ui->centralwidget->hide();
+	// Показываем кнопки меню
+	this->_startButton->show();
+	this->_statisticButton->show();
+}
+
+void Matrix::loadStatistic()
+{
+	try
+	{
+		if (!QFile(QApplication::applicationDirPath() + Configuration::STATISTIC_PATH).exists())
+		{
+			QFile file(Configuration::STATISTIC_RESOURCE);
+			{
+				if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+				{
+					QFile fileTo(QApplication::applicationDirPath() + Configuration::STATISTIC_PATH);
+
+					if (fileTo.open(QIODevice::WriteOnly | QIODevice::Truncate))
+					{
+						fileTo.write(file.readAll());
+						fileTo.close();
+					}
+					else throw std::exception();
+
+					file.close();
+				}
+				else throw std::exception();
+			}
+		}
+
+		QFile file(QApplication::applicationDirPath() + Configuration::STATISTIC_PATH);
+
+		if (file.open(QFile::ReadOnly | QFile::Text))
+		{
+			// Создаём поток для извлечения данных из файла
+			QTextStream in(&file);
+			in.setCodec("UTF-8");
+
+			QString statistic;
+
+			// Считываем данные до конца файла
+			while (!in.atEnd())
+				_statisticList.push_back(QString(in.readLine().toUtf8()).split(';'));
+			
+			file.close();
+		}
+		else throw std::exception();
+	}
+	catch (const std::exception& /*ex*/)
+	{
+		QApplication::beep();
+		QMessageBox::critical(this, Configuration::PROJECT_NAME, QString(Errors::LOAD_ERROR));
+	}
+}
+
+void Matrix::saveStatistic()
+{
+	try
+	{
+		if (!QFile(QApplication::applicationDirPath() + Configuration::STATISTIC_PATH).exists())
+			throw std::exception();
+
+		QFile file(QApplication::applicationDirPath() + Configuration::STATISTIC_PATH);
+
+		if (file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+		{
+			QTextStream in(&file);
+			in.setCodec("UTF-8");
+
+			for (const auto& statistic : _statisticList)
+				in << statistic.join(';') + '\n';
+
+			file.close();
+		}
+		else throw std::exception();
+	}
+	catch (const std::exception& /*ex*/)
+	{
+		QApplication::beep();
+		QMessageBox::critical(this, Configuration::PROJECT_NAME, QString(Errors::SAVE_ERROR));
+	}
+}
+
+void Matrix::changeStatistic(const QStringList& statistic)
+{
+	for (qint32 i = 0; i < _statisticList.size(); ++i)
+	{
+		if (_statisticList[i][0] == statistic[0] && _statisticList[i][1] == statistic[1])
+		{
+			_statisticList[i][2] = statistic[2];
+		}
+	}
+}
+
+void Matrix::showStatistic()
+{
+	_statistic->setRowCount(_statisticList.size());
+	_statistic->setColumnCount(3);
+	_statistic->setHorizontalHeaderLabels(QStringList() << QString::fromUtf8(u8"Раздел") << QString::fromUtf8(u8"Уровень") << QString::fromUtf8(u8"Статус"));
+	
+	for (qint32 i = 0; i < _statisticList.size(); ++i)
+	{
+		_statistic->setItem(i, 0, new QTableWidgetItem(_statisticList[i][0]));
+		_statistic->setItem(i, 1, new QTableWidgetItem(_statisticList[i][1]));
+		_statistic->setItem(i, 2, new QTableWidgetItem(_statisticList[i][2]));
+
+		_statistic->item(i, 0)->setBackground(Qt::yellow);
+		_statistic->item(i, 1)->setBackground(Qt::yellow);
+		_statistic->item(i, 2) && _statistic->item(i, 2)->text().size() > 0x07 ? 
+			_statistic->item(i, 2)->setBackground(Qt::red) : 
+			_statistic->item(i, 2)->setBackground(Qt::green);
+	}
+	
+	_statistic->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 300, Configuration::HEIGHT_MATRIX_WINDOW / 2 - 300, 600, 200);
+	_statistic->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	_statistic->show();
 }
 
 void Matrix::actionHowToPlay_triggered()
@@ -137,12 +306,32 @@ void Matrix::actionAbout_triggered()
 
 void Matrix::actionLevelsStatistic_triggered()
 {
-	QString res;
+	_statistic->setRowCount(_statisticList.size());
+	_statistic->setColumnCount(3);
+	_statistic->setHorizontalHeaderLabels(QStringList() << QString::fromUtf8(u8"Раздел") << QString::fromUtf8(u8"Уровень") << QString::fromUtf8(u8"Статус"));
 
-	for (auto it = _levelsStatistic.begin(); it != _levelsStatistic.end(); ++it)
-		res += it.key() + ' ' + QString(it.value()).to + '\n';
+	for (qint32 i = 0; i < _statisticList.size(); ++i)
+	{
+		_statistic->setItem(i, 0, new QTableWidgetItem(_statisticList[i][0]));
+		_statistic->setItem(i, 1, new QTableWidgetItem(_statisticList[i][1]));
+		_statistic->setItem(i, 2, new QTableWidgetItem(_statisticList[i][2]));
+	}
 
-	QMessageBox::information(this, QString::fromUtf8(u8"Пройденные уровни"), res);
+	// TODO сделать статистику правильной ( не отображается статистка пройденных уровней )
+
+	qint32 emptyCounter = 0;
+
+	for (qint32 i = 0; i < _statistic->rowCount(); ++i)
+	{
+		for (qint32 j = 0; j < _statistic->columnCount(); ++j)
+		{
+			_statistic->item(i, j) == nullptr ? ++emptyCounter : --emptyCounter;
+		}
+	}
+
+	_statistic->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 300, Configuration::HEIGHT_MATRIX_WINDOW / 2 - 300, 600, 200);
+	_statistic->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	_statistic->show();
 }
 
 void Matrix::actionClearStatistic_triggered()
@@ -151,8 +340,7 @@ void Matrix::actionClearStatistic_triggered()
 
 void Matrix::initLevelsStatistic()
 {
-	_levelsStatistic.insert(QString::fromUtf8(u8"Треугольники уровень 1"), false);
-	_levelsStatistic.insert(QString::fromUtf8(u8"Треугольники уровень 2"), false);
+
 }
 
 void Matrix::clearGameWindow()
@@ -170,7 +358,7 @@ void Matrix::clearGameWindow()
 	ui->hintLabel->clear();
 }
 
-void Matrix::chooseLevel(qint32 level)
+void Matrix::chooseTriangleLevel(qint32 level)
 {
 	switch (level)
 	{
@@ -179,6 +367,7 @@ void Matrix::chooseLevel(qint32 level)
 		this->clearGameWindow();
 		this->drawMatrix6x6();
 		_level = new Level_Triangle_1(this, _view, _scene);
+		ui->levelButton->hide();
 		break;
 
 		// Второй уровень
@@ -186,6 +375,15 @@ void Matrix::chooseLevel(qint32 level)
 		this->clearGameWindow();
 		this->drawMatrix6x6();
 		_level = new Level_Triangle_2(this, _view, _scene);
+		ui->levelButton->show();
+		break;
+
+		// Третий уровень
+	case 3:
+		this->clearGameWindow();
+		this->drawMatrix6x6();
+		_level = new Level_Triangle_3(this, _view, _scene);
+		ui->levelButton->show();
 		break;
 
 		// Если не выбран уровень
@@ -193,6 +391,45 @@ void Matrix::chooseLevel(qint32 level)
 		this->clearGameWindow();
 		delete _level;
 		_level = nullptr;
+		ui->levelButton->hide();
+		break;
+	}
+}
+
+void Matrix::chooseLengthAndDistanceLevel(qint32 level)
+{
+	switch (level)
+	{
+		// Первый уровень
+	case 1:
+		this->clearGameWindow();
+		this->drawMatrix6x6();
+		_level = new Level_LengthAndDistance_1(this, _view, _scene);
+		ui->levelButton->show();
+		break;
+
+		// Второй уровень
+	case 2:
+		this->clearGameWindow();
+		this->drawMatrix6x6();
+		_level = new Level_LengthAndDistance_2(this, _view, _scene);
+		ui->levelButton->hide();
+		break;
+
+		// Третий уровень
+	case 3:
+		this->clearGameWindow();
+		this->drawMatrix6x6();
+		_level = new Level_LengthAndDistance_3(this, _view, _scene);
+		ui->levelButton->hide();
+		break;
+
+		// Если не выбран уровень
+	default:
+		this->clearGameWindow();
+		delete _level;
+		_level = nullptr;
+		ui->levelButton->hide();
 		break;
 	}
 }
@@ -200,7 +437,7 @@ void Matrix::chooseLevel(qint32 level)
 void Matrix::paintPointOnGraphicView(QMouseEvent* event)
 {
 	qDebug() << event->pos();
-	
+
 	double rad = 10;
 	_scene->addEllipse(QRectF(event->x() - rad, event->y() - rad, rad * 2.0, rad * 2.0), QPen(), QBrush(Qt::yellow));
 }

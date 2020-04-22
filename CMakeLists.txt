@@ -28,6 +28,7 @@ set(project_headers
 	include/GraphicScene.h
 	include/GraphicView.h
 	include/Matrix.h
+	include/Functions.h
 
 	# Triangles levels
 
@@ -36,8 +37,17 @@ set(project_headers
 	include/levels/Level_Triangle_1.cpp
 	include/levels/Level_Triangle_2.h
 	include/levels/Level_Triangle_2.cpp
-	#include/levels/LevelTriangles.h
-	#include/levels/LevelTriangles.cpp
+	include/levels/Level_Triangle_3.h
+	include/levels/Level_Triangle_3.cpp
+
+	# Length and distance levels
+
+	include/levels/Level_LengthAndDistance_1.h
+	include/levels/Level_LengthAndDistance_1.cpp
+	include/levels/Level_LengthAndDistance_2.h
+	include/levels/Level_LengthAndDistance_2.cpp
+	include/levels/Level_LengthAndDistance_3.h
+	include/levels/Level_LengthAndDistance_3.cpp
 )
 
 set(project_sources 
