@@ -1,4 +1,4 @@
-﻿#include "include/levels/Level_Triangle_2.h"
+﻿#include "include/levels/Level_Triangle_3.h"
 #include "include/Configuration.h"
 #include "include/Matrix.h"
 #include "ui_Matrix.h"
@@ -6,47 +6,60 @@
 #include "include/GraphicScene.h"
 
 #include <QMouseEvent>
+#include <QMediaPlayer>
 #include <qmath.h>
 
-Level_Triangle_2::Level_Triangle_2(Matrix* matrix, GraphicView* view, GraphicScene* scene) :
+Level_Triangle_3::Level_Triangle_3(Matrix* matrix, GraphicView* view, GraphicScene* scene) :
 	_matrix(matrix),
 	_view(view),
 	_scene(scene),
+	_mediaPress(new QMediaPlayer),
 	_counter(0)
 {
-	this->Level_Triangle_2::startLevel();
+	this->Level_Triangle_3::startLevel();
 	
+
 	_matrix->ui->levelButton->setText(QString::fromUtf8(u8"Удалить линии и начать сначала"));
 
-	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_2::paintLineOnGraphicView);
-	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_2::isInsidePolygon);
-	connect(_matrix->ui->levelButton, &QPushButton::clicked, this, &Level_Triangle_2::clearLevel);
+	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_3::paintLineOnGraphicView);
+	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_3::isInsidePolygon);
+	connect(_matrix->ui->levelButton, &QPushButton::clicked, this, &Level_Triangle_3::clearLevel);
 }
 
-Level_Triangle_2::~Level_Triangle_2()
+Level_Triangle_3::~Level_Triangle_3()
 {
+	delete _mediaPress;
 }
 
-void Level_Triangle_2::paintLevel()
+void Level_Triangle_3::paintLevel()
 {
 	QVector<QPoint> points;
 
 	qreal width = Configuration::WIDTH_VIEW / 6;
 	qreal height = Configuration::HEIGHT_VIEW / 6;
 
-	for (qint32 i = 0; i < 6; ++i)
+	for (qint32 i = 0; i < 7; ++i)
 	{
-		if (i == 1)
-			points.push_back(QPoint(width * i, height * 2));
+		if (i == 0)
+		{
+			this->paintPoint(QPoint(0, height * 2));
+			points.push_back(QPoint(0, height * 3));
+		}
 
 		if (i == 2)
-			this->paintPoint(QPoint(width * i, height * 5));
-
-		if (i == 3)
-			points.push_back(QPoint(width * i, height * 5));
+			points.push_back(QPoint(width * i, height * 6));
 
 		if (i == 5)
-			points.push_back(QPoint(width * i, height * 2));
+		{
+			this->paintPoint(QPoint(width * i, height * 3));
+			points.push_back(QPoint(width * i, height * 4));
+		}
+
+		if (i == 6)
+		{
+			this->paintPoint(QPoint(width * 6, height * 2));
+			this->paintPoint(QPoint(width * 6, height * 5));
+		}
 	}
 
 	for (const auto& point : points)
@@ -57,13 +70,13 @@ void Level_Triangle_2::paintLevel()
 	}
 }
 
-void Level_Triangle_2::paintPoint(const QPoint& point)
+void Level_Triangle_3::paintPoint(const QPoint& point)
 {
 	double rad = 5;
 	_scene->addEllipse(QRectF(point.x() - rad, point.y() - rad, rad * 2.0, rad * 2.0), QPen(Qt::black, 2), QBrush(Qt::white));
 }
 
-void Level_Triangle_2::clearLevel()
+void Level_Triangle_3::clearLevel()
 {
 	// Очищаем уровень
 	_previousPos = QPoint();
@@ -76,17 +89,17 @@ void Level_Triangle_2::clearLevel()
 	this->startLevel();
 }
 
-void Level_Triangle_2::showTooltip()
+void Level_Triangle_3::showTooltip()
 {
 	_matrix->ui->tooltip->setText(QString::fromUtf8(u8"Постройте равнобедренный\nтреугольник с вершинами в трёх из\nданных точек."));
 }
 
-void Level_Triangle_2::showHint()
+void Level_Triangle_3::showHint()
 {
 	_matrix->ui->hintLabel->setText(QString::fromUtf8(u8"Соединяйте линии правой кнопкой мыши.\nВнимание! Выберите правильное начало нажатий!"));
 }
 
-void Level_Triangle_2::startLevel()
+void Level_Triangle_3::startLevel()
 {
 	// Сразу показываем подсказку / инструкцию к уровню
 	this->showHint();
@@ -98,7 +111,7 @@ void Level_Triangle_2::startLevel()
 	this->paintLevel();
 }
 
-bool Level_Triangle_2::checkLevel(QObject* watched, QEvent* event)
+bool Level_Triangle_3::checkLevel(QObject* watched, QEvent* event)
 {
 	if (event->type() == QEvent::KeyPress)
 	{
@@ -118,11 +131,9 @@ bool Level_Triangle_2::checkLevel(QObject* watched, QEvent* event)
 			return true;
 		}
 	}
-
-	return false;
 }
 
-void Level_Triangle_2::finishLevel()
+void Level_Triangle_3::finishLevel()
 {
 	// Делаем красивый вывод
 	this->clearLevel();
@@ -131,10 +142,10 @@ void Level_Triangle_2::finishLevel()
 	_scene->addLine(QLineF(QPointF(_polygon._points[1]), QPointF(_polygon._points[2])), QPen(Qt::red, 2));
 	_scene->addLine(QLineF(QPointF(_polygon._points[2]), QPointF(_polygon._points[0])), QPen(Qt::red, 2));
 
-	_matrix->changeStatistic(QStringList() << QString::fromUtf8(u8"Равнобедренные треугольники") << QString::fromUtf8(u8"Уровень 2") << QString::fromUtf8(u8"Пройден"));
+	_matrix->changeStatistic(QStringList() << QString::fromUtf8(u8"Равнобедренные треугольники") << QString::fromUtf8(u8"Уровень 3") << QString::fromUtf8(u8"Пройден"));
 }
 
-void Level_Triangle_2::paintPointOnGraphicView(QMouseEvent* event)
+void Level_Triangle_3::paintPointOnGraphicView(QMouseEvent* event)
 {
 	double rad = 5;
 	_scene->addEllipse(QRectF(event->x() - rad, event->y() - rad, rad * 2.0, rad * 2.0), QPen(), QBrush(Qt::yellow));
@@ -142,7 +153,7 @@ void Level_Triangle_2::paintPointOnGraphicView(QMouseEvent* event)
 	_previousPos = event->pos();
 }
 
-void Level_Triangle_2::paintLineOnGraphicView(QMouseEvent* event)
+void Level_Triangle_3::paintLineOnGraphicView(QMouseEvent* event)
 {
 	if (event->button() == Qt::MouseButton::RightButton)
 	{
@@ -153,7 +164,7 @@ void Level_Triangle_2::paintLineOnGraphicView(QMouseEvent* event)
 	}
 }
 
-void Level_Triangle_2::isInsidePolygon(QMouseEvent* event)
+void Level_Triangle_3::isInsidePolygon(QMouseEvent* event)
 {
 	if (event->button() == Qt::MouseButton::RightButton)
 	{
@@ -172,11 +183,11 @@ void Level_Triangle_2::isInsidePolygon(QMouseEvent* event)
 		_matrix->ui->hintLabel->setText(_matrix->ui->hintLabel->text() + QString::fromUtf8(u8"\nПопробуйте начать с крайней левой верхней точки"));
 }
 
-void Level_Triangle_2::playPressSound()
+void Level_Triangle_3::playPressSound()
 {
 }
 
-bool Level_Triangle_2::inArea(const QPoint& first, const QPoint& second, const qint32& epsilon)
+bool Level_Triangle_3::inArea(const QPoint& first, const QPoint& second, const qint32& epsilon)
 {
 	return (qFabs(first.x() - second.x()) < epsilon && qFabs(first.y() - second.y()) < epsilon);
 }

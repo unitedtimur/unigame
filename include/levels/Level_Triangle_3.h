@@ -1,5 +1,5 @@
-#ifndef LEVEL_TRIANGLE_2
-#define LEVEL_TRIANGLE_2
+#ifndef LEVEL_TRIANGLE_3
+#define LEVEL_TRIANGLE_3
 
 #include "include/levels/ILevel.h"
 
@@ -7,13 +7,14 @@ class QMouseEvent;
 class Matrix;
 class GraphicView;
 class GraphicScene;
+class QMediaPlayer;
 
-class Level_Triangle_2 final : public ILevel
+class Level_Triangle_3 final : public ILevel
 {
 	Q_OBJECT
 public:
-	explicit Level_Triangle_2(Matrix* matrix, GraphicView* view, GraphicScene* scene);
-	~Level_Triangle_2();
+	explicit Level_Triangle_3(Matrix* matrix, GraphicView* view, GraphicScene* scene);
+	~Level_Triangle_3();
 
 protected:
 	void paintLevel() override;
@@ -35,6 +36,7 @@ private:
 	Matrix* _matrix;
 	GraphicView* _view;
 	GraphicScene* _scene;
+	QMediaPlayer* _mediaPress;
 
 	struct Polygon
 	{

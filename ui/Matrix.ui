@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>936</width>
+    <height>624</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -62,7 +62,7 @@
          <item row="8" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QPushButton" name="nextButton">
+            <widget class="QPushButton" name="menuButton">
              <property name="text">
               <string>В главное меню</string>
              </property>
@@ -156,6 +156,11 @@
              <string>Уровень 2</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string>Уровень 3</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>
@@ -184,10 +189,27 @@
         </property>
         <layout class="QVBoxLayout" name="levelPrymaeLayout">
          <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>Уровень 1</string>
-           </property>
+          <widget class="QComboBox" name="levelLengthAndDistanceComboBox">
+           <item>
+            <property name="text">
+             <string>Выберите уровень</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 3</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
@@ -222,7 +244,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>936</width>
      <height>26</height>
     </rect>
    </property>

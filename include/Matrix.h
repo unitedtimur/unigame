@@ -7,7 +7,9 @@
 class QGraphicsSceneMouseEvent;
 class QMediaPlaylist;
 class QMediaPlayer;
+class QTableWidget;
 class GraphicScene;
+class QPushButton;
 class GraphicView;
 class ILevel;
 
@@ -25,6 +27,12 @@ public:
 
     void drawMatrix6x6() const;
 
+    Q_SLOT void startGame();
+    Q_SLOT void toMenu();
+    Q_SLOT void loadStatistic();
+    Q_SLOT void saveStatistic();
+    Q_SLOT void changeStatistic(const QStringList& statistic);
+    Q_SLOT void showStatistic();
     Q_SLOT void actionHowToPlay_triggered();
     Q_SLOT void actionExit_triggered();
     Q_SLOT void actionAbout_triggered();
@@ -38,7 +46,8 @@ protected:
 	void mousePressEvent(QMouseEvent* event) override;
     bool eventFilter(QObject* watched, QEvent* event) override;
     
-	Q_SLOT void chooseLevel(qint32 level);
+	Q_SLOT void chooseTriangleLevel(qint32 level);
+    Q_SLOT void chooseLengthAndDistanceLevel(qint32 level);
     Q_SLOT void paintPointOnGraphicView(QMouseEvent* event);
 
 public:
@@ -49,6 +58,10 @@ public:
     QMediaPlayer*   _audio;
     QMediaPlaylist* _playlist;
     QMap<QString, bool> _levelsStatistic;
+    QPushButton* _startButton;
+    QPushButton* _statisticButton;
+    QVector<QStringList> _statisticList;
+    QTableWidget* _statistic;
 };
 
 #endif // MATRIX_H
