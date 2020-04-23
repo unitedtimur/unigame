@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Matrix</class>
+ <widget class="QMainWindow" name="Matrix">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>936</width>
+    <height>624</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>640</width>
+     <height>429</height>
+    </size>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="1" column="0">
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>13</width>
+             <height>5</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="4" column="0">
+          <layout class="QVBoxLayout" name="tooltipLayout">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetFixedSize</enum>
+           </property>
+           <item alignment="Qt::AlignHCenter">
+            <widget class="QLabel" name="tooltip">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="8" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QPushButton" name="menuButton">
+             <property name="text">
+              <string>В главное меню</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="0">
+          <layout class="QVBoxLayout" name="hintLayout">
+           <item>
+            <widget class="QLabel" name="hintLabel">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="0">
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>13</width>
+             <height>5</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="2" column="0">
+          <layout class="QVBoxLayout" name="viewLayout">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMaximumSize</enum>
+           </property>
+          </layout>
+         </item>
+         <item row="7" column="0">
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>13</width>
+             <height>5</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="levelsLayout">
+      <item>
+       <widget class="QGroupBox" name="triangleGroupBox">
+        <property name="title">
+         <string>Равнобедренные треугольники</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QComboBox" name="levelTianglesComboBox">
+           <property name="currentText">
+            <string>Выберите уровень</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>Выберите уровень</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 3</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="lengthAndDistanceGroupBox">
+        <property name="title">
+         <string>Длина и расстояние</string>
+        </property>
+        <layout class="QVBoxLayout" name="levelPrymaeLayout">
+         <item>
+          <widget class="QComboBox" name="levelLengthAndDistanceComboBox">
+           <item>
+            <property name="text">
+             <string>Выберите уровень</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 3</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="levelButton">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>936</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Опции</string>
+    </property>
+    <addaction name="actionHowToPlay"/>
+    <addaction name="actionAbout"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Статистика уровней</string>
+    </property>
+    <addaction name="actionLevelsStatistics"/>
+    <addaction name="actionClearStatistics"/>
+   </widget>
+   <addaction name="menuOptions"/>
+   <addaction name="menu"/>
+  </widget>
+  <action name="actionHowToPlay">
+   <property name="text">
+    <string>Как играть</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>О создателе</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Выйти</string>
+   </property>
+  </action>
+  <action name="actionLevelsStatistics">
+   <property name="text">
+    <string>Пройденные</string>
+   </property>
+  </action>
+  <action name="actionClearStatistics">
+   <property name="text">
+    <string>Очистить статистику</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

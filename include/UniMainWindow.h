@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+class StartMenu;
+
 namespace Ui
 {
 	class UniMainWindow;
@@ -23,6 +25,7 @@ public slots:
 
 private:
 	Ui::UniMainWindow* ui;
+	StartMenu* _startMenu;
 };
 
 #endif UNIMAINWINDOW_H

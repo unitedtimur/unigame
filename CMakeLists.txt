@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+﻿cmake_minimum_required(VERSION 3.15)
 
 project(uniGame VERSION 1.0.0 LANGUAGES CXX)
 
@@ -11,22 +11,52 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #Чтобы найти пакеты Qt5
 set(CMAKE_PREFIX_PATH "C:\\Qt\\5.13.0\\msvc2017_64")
 
-find_package(Qt5 COMPONENTS Core Widgets Gui REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Gui Multimedia REQUIRED)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(project_ui
 	ui/UniMainWindow.ui
+	ui/StartMenu.ui
+	ui/Matrix.ui
 )
 
 set(project_headers 
 	include/UniMainWindow.h
+	include/StartMenu.h
 	include/Configuration.h
+	include/GraphicScene.h
+	include/GraphicView.h
+	include/Matrix.h
+	include/Functions.h
+
+	# Triangles levels
+
+	include/levels/ILevel.h
+	include/levels/Level_Triangle_1.h
+	include/levels/Level_Triangle_1.cpp
+	include/levels/Level_Triangle_2.h
+	include/levels/Level_Triangle_2.cpp
+	include/levels/Level_Triangle_3.h
+	include/levels/Level_Triangle_3.cpp
+
+	# Length and distance levels
+
+	include/levels/Level_LengthAndDistance_1.h
+	include/levels/Level_LengthAndDistance_1.cpp
+	include/levels/Level_LengthAndDistance_2.h
+	include/levels/Level_LengthAndDistance_2.cpp
+	include/levels/Level_LengthAndDistance_3.h
+	include/levels/Level_LengthAndDistance_3.cpp
 )
 
 set(project_sources 
 	src/main.cpp
 	src/UniMainWindow.cpp
+	src/StartMenu.cpp
+	src/Matrix.cpp
+	src/GraphicScene.cpp
+	src/GraphicView.cpp
 )
 
 set(project_resources
@@ -49,4 +79,5 @@ target_link_libraries(${PROJECT_NAME}
 	Qt5::Core
 	Qt5::Gui
 	Qt5::Widgets
+	Qt5::Multimedia
 )

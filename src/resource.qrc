@@ -5,4 +5,12 @@
         <file>images/exit.png</file>
         <file>images/unigame.png</file>
     </qresource>
+    <qresource prefix="/sounds">
+        <file>sounds/AUDIO_MATRIX.wav</file>
+        <file>sounds/AUDIO_PRESS_MOUSE_LEFT.wav</file>
+        <file>sounds/AUDIO_HINT.wav</file>
+    </qresource>
+    <qresource prefix="/statistic">
+        <file>statistic/statistic.csv</file>
+    </qresource>
 </RCC>
