@@ -25,6 +25,8 @@ namespace Configuration
 
 	static const QString STATISTIC_RESOURCE			= ":/statistic/statistic/statistic.csv";
 	static const QString STATISTIC_PATH				= "/statistic.csv";
+
+	static const QString BUTTON_FONT				= ":/fonts/fonts/font.otf";
 }
 
 namespace Errors

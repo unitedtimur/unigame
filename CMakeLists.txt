@@ -67,17 +67,35 @@ qt5_wrap_ui(project_headers_wrapped ${project_ui})
 #qt5_wrap_cpp(project_sources_moc ${project_headers})
 qt5_add_resources(project_sources ${project_resources})
 
-add_executable(${PROJECT_NAME}
+# Устанавливаем режим работы приложения для Windows
+IF(WIN32)
+	SET(GUI_TYPE WIN32)
+ENDIF(WIN32)
+# Устанавливаем режим работы приложения для MacOS
+IF (APPLE)
+	SET(GUI_TYPE MACOSX_BUNDLE)
+ENDIF (APPLE)
+
+add_executable(${PROJECT_NAME} ${GUI_TYPE}
 	${project_headers}
 	${project_sources}
 	#${project_sources_moc}
 	${project_headers_wrapped}
 )
 
-target_link_libraries(${PROJECT_NAME} 
+target_link_libraries(${PROJECT_NAME}
 	PUBLIC 
 	Qt5::Core
 	Qt5::Gui
 	Qt5::Widgets
 	Qt5::Multimedia
 )
+
+#IF(NOT CMAKE_BUILD_TYPE)
+#   SET(CMAKE_BUILD_TYPE Release ... FORCE)
+#ENDIF()
+#
+#
+#	install (CODE "execute_process(COMMAND ${CMAKE_PREFIX_PATH/bin/windeployqt.exe} --verbose 0 --no-compiler-runtime
+#        -webengine -websockets WORKING_DIRECTORY ${CMAKE_BINARY_DIR/bin})")
+#	message("Release build")
