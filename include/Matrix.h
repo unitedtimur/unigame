@@ -33,6 +33,7 @@ public:
     Q_SLOT void saveStatistic();
     Q_SLOT void changeStatistic(const QStringList& statistic);
     Q_SLOT void showStatistic();
+    Q_SLOT void clearStatistic();
     Q_SLOT void actionHowToPlay_triggered();
     Q_SLOT void actionExit_triggered();
     Q_SLOT void actionAbout_triggered();

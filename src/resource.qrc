@@ -13,4 +13,7 @@
     <qresource prefix="/statistic">
         <file>statistic/statistic.csv</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file>fonts/font.otf</file>
+    </qresource>
 </RCC>

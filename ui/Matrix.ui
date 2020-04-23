@@ -7,11 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>936</width>
-    <height>624</height>
+    <height>588</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="minimumSize">
@@ -132,6 +135,9 @@
      <layout class="QVBoxLayout" name="levelsLayout">
       <item>
        <widget class="QGroupBox" name="triangleGroupBox">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="title">
          <string>Равнобедренные треугольники</string>
         </property>
@@ -184,6 +190,9 @@
       </item>
       <item>
        <widget class="QGroupBox" name="lengthAndDistanceGroupBox">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="title">
          <string>Длина и расстояние</string>
         </property>
