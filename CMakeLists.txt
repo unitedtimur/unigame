@@ -90,12 +90,3 @@ target_link_libraries(${PROJECT_NAME}
 	Qt5::Widgets
 	Qt5::Multimedia
 )
-
-#IF(NOT CMAKE_BUILD_TYPE)
-#   SET(CMAKE_BUILD_TYPE Release ... FORCE)
-#ENDIF()
-#
-#
-#	install (CODE "execute_process(COMMAND ${CMAKE_PREFIX_PATH/bin/windeployqt.exe} --verbose 0 --no-compiler-runtime
-#        -webengine -websockets WORKING_DIRECTORY ${CMAKE_BINARY_DIR/bin})")
-#	message("Release build")
