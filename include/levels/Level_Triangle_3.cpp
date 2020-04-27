@@ -17,7 +17,6 @@ Level_Triangle_3::Level_Triangle_3(Matrix* matrix, GraphicView* view, GraphicSce
 	_counter(0)
 {
 	this->Level_Triangle_3::startLevel();
-	
 
 	_matrix->ui->levelButton->setText(QString::fromUtf8(u8"Удалить линии и начать сначала"));
 
