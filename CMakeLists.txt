@@ -16,14 +16,10 @@ find_package(Qt5 COMPONENTS Core Widgets Gui Multimedia REQUIRED)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(project_ui
-	ui/UniMainWindow.ui
-	ui/StartMenu.ui
 	ui/Matrix.ui
 )
 
 set(project_headers 
-	include/UniMainWindow.h
-	include/StartMenu.h
 	include/Configuration.h
 	include/GraphicScene.h
 	include/GraphicView.h
@@ -52,8 +48,6 @@ set(project_headers
 
 set(project_sources 
 	src/main.cpp
-	src/UniMainWindow.cpp
-	src/StartMenu.cpp
 	src/Matrix.cpp
 	src/GraphicScene.cpp
 	src/GraphicView.cpp
@@ -64,7 +58,6 @@ set(project_resources
 )
 
 qt5_wrap_ui(project_headers_wrapped ${project_ui})
-#qt5_wrap_cpp(project_sources_moc ${project_headers})
 qt5_add_resources(project_sources ${project_resources})
 
 # Устанавливаем режим работы приложения для Windows
@@ -79,7 +72,6 @@ ENDIF (APPLE)
 add_executable(${PROJECT_NAME} ${GUI_TYPE}
 	${project_headers}
 	${project_sources}
-	#${project_sources_moc}
 	${project_headers_wrapped}
 )
 
