@@ -26,7 +26,6 @@
 #include <QHeaderView>
 #include <QTemporaryFile>
 #include <QDir>
-#include <QFontDataBase>
 
 Matrix::Matrix(QWidget* parent) :
 	QMainWindow(parent),
@@ -43,8 +42,7 @@ Matrix::Matrix(QWidget* parent) :
 	ui->setupUi(this);
 
 	// Устанавливаем стили
-	auto id = QFontDatabase::addApplicationFont(Configuration::BUTTON_FONT);
-	this->setStyleSheet("QMainWindow{ background: #36393f; }");
+    this->setStyleSheet("QMainWindow{ background: #36393f; }");
 	this->_statistic->setStyleSheet("QTableWidget { color: #202225; background: #36393f; } QHeaderView { color: #8e9297; background-color: #36393f; font: 25px PerfoC; }");
 	this->ui->centralwidget->setStyleSheet("QWidget { border: 1px solid #2ecc71; }");
 	this->_startButton->setStyleSheet("\

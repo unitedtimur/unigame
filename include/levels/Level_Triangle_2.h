@@ -1,7 +1,7 @@
 #ifndef LEVEL_TRIANGLE_2
 #define LEVEL_TRIANGLE_2
 
-#include "include/levels/ILevel.h"
+#include "ILevel.h"
 
 class QMouseEvent;
 class Matrix;

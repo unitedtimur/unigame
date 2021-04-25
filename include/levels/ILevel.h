@@ -2,6 +2,7 @@
 #define ILEVEL_H
 
 #include <QObject>
+#include <QVector>
 #include <QPoint>
 
 class ILevel : public QObject

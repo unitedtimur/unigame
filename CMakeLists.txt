@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #Чтобы найти пакеты Qt5
-set(CMAKE_PREFIX_PATH "C:\\Qt\\5.13.0\\msvc2017_64")
+set(CMAKE_PREFIX_PATH "/home/unitedtimur/Qt/5.12.9/gcc_64/lib/")
 
 find_package(Qt5 COMPONENTS Core Widgets Gui Multimedia REQUIRED)
 
@@ -80,5 +80,5 @@ target_link_libraries(${PROJECT_NAME}
 	Qt5::Core
 	Qt5::Gui
 	Qt5::Widgets
-	Qt5::Multimedia
+        Qt5::Multimedia
 )
