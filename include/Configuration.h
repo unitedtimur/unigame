@@ -27,11 +27,36 @@ static const QString STATISTIC_RESOURCE			= ":/statistic/statistic/statistic.csv
 static const QString STATISTIC_PATH				= "/statistic.csv";
 
 static const QString BUTTON_FONT				= ":/fonts/fonts/font.otf";
+
+
+static const QString START_BUTTON_STYLE_SHEET = "\
+            QPushButton { "
+                          "color: #8e9297; "
+                          "background: #36393f; "
+                          "border-radius: 20px; "
+                          "border-style: outset; "
+                          "border-width: 2px; "
+                          "border-color: beige; "
+                          "min-width: 10em; "
+                          "padding: 10px; "
+                          "font: 25px PerfoC; "
+                          "}\
+            QPushButton:hover { "
+                                "color: #ffffff; "
+                                "background: #393c43; "
+                                "border-radius: 20px; "
+                                "border-style: outset; "
+                                "border-width: 2px; "
+                                "border-color: #2ecc71; "
+                                "min-width: 10em; "
+                                "padding: 10px; "
+                                "}\
+            ";
 }
 
-namespace Errors {
-static const char* LOAD_ERROR					= "The statistics file cannot be opened. Fatal error!";
-static const char* SAVE_ERROR					= "The statistics file has been deleted. Saving is not possible!";
+        namespace Errors {
+        static const char* LOAD_ERROR					= "The statistics file cannot be opened. Fatal error!";
+        static const char* SAVE_ERROR					= "The statistics file has been deleted. Saving is not possible!";
 }
 
-#endif
+        #endif

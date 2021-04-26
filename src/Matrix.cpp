@@ -45,69 +45,57 @@ Matrix::Matrix(QWidget* parent) :
 
     readSettings();
 
-        // Устанавливаем стили
-        this->_statistic->setStyleSheet("QTableWidget { color: #202225; background: #36393f; } QHeaderView { color: #8e9297; background-color: #36393f; font: 25px PerfoC; }");
-        this->_startButton->setStyleSheet("\
-            QPushButton { "
-                          "color: #8e9297; "
-                          "background: #36393f; "
-                          "border-radius: 20px; "
-                          "border-style: outset; "
-                          "border-width: 2px; "
-                          "border-color: beige; "
-                          "min-width: 10em; "
-                          "padding: 10px; "
-                          "font: 25px PerfoC; "
-                          "}\
-            QPushButton:hover { "
-                                "color: #ffffff; "
-                                "background: #393c43; "
-                                "border-radius: 20px; "
-                                "border-style: outset; "
-                                "border-width: 2px; "
-                                "border-color: #2ecc71; "
-                                "min-width: 10em; "
-                                "padding: 10px; "
-                                "}\
-            ");
-        this->_statisticButton->setStyleSheet(_startButton->styleSheet());
-        this->ui->hintLabel->setStyleSheet(this->ui->tooltip->styleSheet());
-        this->ui->menuButton->setStyleSheet(_startButton->styleSheet());
-        this->ui->levelLengthAndDistanceComboBox->setStyleSheet(this->ui->levelTianglesComboBox->styleSheet());
-        this->ui->levelButton->setStyleSheet(_startButton->styleSheet());
+    // Устанавливаем стили
+    _statistic->setStyleSheet("QTableWidget { "
+                                            "color: #202225; "
+                                            "background: #36393f; "
+                                        "} "
+                                        "QHeaderView { "
+                                            "color: #8e9297; "
+                                            "background-color: #36393f; "
+                                            "font: 25px PerfoC; "
+                                        "}");
+    _startButton->setStyleSheet(Configuration::START_BUTTON_STYLE_SHEET);
+    _statisticButton->setStyleSheet(_startButton->styleSheet());
+    ui->hintLabel->setStyleSheet(this->ui->tooltip->styleSheet());
+    ui->menuButton->setStyleSheet(_startButton->styleSheet());
+    ui->levelLengthAndDistanceComboBox->setStyleSheet(ui->levelTianglesComboBox->styleSheet());
+    ui->levelButton->setStyleSheet(_startButton->styleSheet());
 
-        // Скрываем окно игры
-        this->ui->centralwidget->hide();
-        {
-            this->_startButton->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 130, Configuration::HEIGHT_MATRIX_WINDOW / 2, 200, 50);
-            this->_statisticButton->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 130, Configuration::HEIGHT_MATRIX_WINDOW / 2 + 80, 200, 50);
+    // Скрываем окно игры
+    ui->centralwidget->hide();
+    {
+        this->_startButton->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 130,
+                                        Configuration::HEIGHT_MATRIX_WINDOW / 2, 200, 50);
+        this->_statisticButton->setGeometry(Configuration::WIDTH_MATRIX_WINDOW / 2 - 130,
+                                            Configuration::HEIGHT_MATRIX_WINDOW / 2 + 80, 200, 50);
 
-            connect(this->_startButton, &QPushButton::clicked, this, &Matrix::startGame);
-            connect(this->_statisticButton, &QPushButton::clicked, this, &Matrix::showStatistic);
-            connect(this->ui->menuButton, &QPushButton::clicked, this, &Matrix::toMenu);
-        }
+        connect(this->_startButton, &QPushButton::clicked, this, &Matrix::startGame);
+        connect(this->_statisticButton, &QPushButton::clicked, this, &Matrix::showStatistic);
+        connect(this->ui->menuButton, &QPushButton::clicked, this, &Matrix::toMenu);
+    }
 
-        // Инициализация статистики уровней
-        this->loadStatistic();
-        // Изменяем размер окна
-        this->resize(Configuration::WIDTH_MAIN_WINDOW, Configuration::HEIGHT_MAIN_WINDOW);
-        // Фиксируем размер окон
-        this->setFixedSize(Configuration::WIDTH_MAIN_WINDOW, Configuration::HEIGHT_MAIN_WINDOW);
-        this->_statistic->setFixedSize(Configuration::WIDTH_MAIN_WINDOW, Configuration::HEIGHT_MAIN_WINDOW / 2);
-        // Устанавливаем имя окнам
-        this->setWindowTitle(Configuration::PROJECT_NAME);
-        this->_statistic->setWindowTitle(Configuration::PROJECT_NAME);
-        // Устанавливаем иконку окнам
-        this->setWindowIcon(QIcon(Configuration::UNIGAME));
-        this->_statistic->setWindowIcon(QIcon(Configuration::UNIGAME));
-        /*
+    // Инициализация статистики уровней
+    loadStatistic();
+    // Изменяем размер окна
+    resize(Configuration::WIDTH_MAIN_WINDOW, Configuration::HEIGHT_MAIN_WINDOW);
+    // Фиксируем размер окон
+    setFixedSize(Configuration::WIDTH_MAIN_WINDOW, Configuration::HEIGHT_MAIN_WINDOW);
+    _statistic->setFixedSize(Configuration::WIDTH_MAIN_WINDOW, Configuration::HEIGHT_MAIN_WINDOW / 2);
+    // Устанавливаем имя окнам
+    setWindowTitle(Configuration::PROJECT_NAME);
+    _statistic->setWindowTitle(Configuration::PROJECT_NAME);
+    // Устанавливаем иконку окнам
+    setWindowIcon(QIcon(Configuration::UNIGAME));
+    _statistic->setWindowIcon(QIcon(Configuration::UNIGAME));
+    /*
          * Установим иконки для действий
          */
-        this->ui->actionHowToPlay->setIcon(QIcon(Configuration::HOWTOPLAY));
-        this->ui->actionAbout->setIcon(QIcon(Configuration::ABOUT));
-        this->ui->actionExit->setIcon(QIcon(Configuration::EXIT));
+    ui->actionHowToPlay->setIcon(QIcon(Configuration::HOWTOPLAY));
+    ui->actionAbout->setIcon(QIcon(Configuration::ABOUT));
+    ui->actionExit->setIcon(QIcon(Configuration::EXIT));
 
-        /*
+    /*
          * Опции
          *	Как играть
          *	О создателе
@@ -117,48 +105,52 @@ Matrix::Matrix(QWidget* parent) :
          *	Пройденные
          *	Очистить статистику
          */
-        connect(this->ui->actionHowToPlay, &QAction::triggered, this, &Matrix::actionHowToPlay_triggered);
-        connect(this->ui->actionAbout, &QAction::triggered, this, &Matrix::actionAbout_triggered);
-        connect(this->ui->actionExit, &QAction::triggered, this, &Matrix::actionExit_triggered);
-        connect(this->ui->actionLevelsStatistics, &QAction::triggered, this, &Matrix::showStatistic);
-        connect(this->ui->actionClearStatistics, &QAction::triggered, this, &Matrix::clearStatistic);
-        connect(this->ui->actionClearStatistics, &QAction::triggered, this, &Matrix::saveStatistic);
+    connect(this->ui->actionHowToPlay, &QAction::triggered, this, &Matrix::actionHowToPlay_triggered);
+    connect(this->ui->actionAbout, &QAction::triggered, this, &Matrix::actionAbout_triggered);
+    connect(this->ui->actionExit, &QAction::triggered, this, &Matrix::actionExit_triggered);
+    connect(this->ui->actionLevelsStatistics, &QAction::triggered, this, &Matrix::showStatistic);
+    connect(this->ui->actionClearStatistics, &QAction::triggered, this, &Matrix::clearStatistic);
+    connect(this->ui->actionClearStatistics, &QAction::triggered, this, &Matrix::saveStatistic);
 
-        // Устанавливаем сцену
-        this->_view->setScene(this->_scene);
+    // Устанавливаем сцену
+    this->_view->setScene(this->_scene);
 
-        QCoreApplication::instance()->installEventFilter(this);
+    QCoreApplication::instance()->installEventFilter(this);
 
-        // Добавление GraphicView на viewLayout
-        this->ui->viewLayout->addWidget(this->_view);
+    // Добавление GraphicView на viewLayout
+    this->ui->viewLayout->addWidget(this->_view);
 
-        // Фиксация размера окна ( запрет на изменение )
-        this->setMinimumSize(QSize(Configuration::WIDTH_MATRIX_WINDOW, Configuration::HEIGHT_MATRIX_WINDOW));
-        this->setMaximumSize(QSize(Configuration::WIDTH_MATRIX_WINDOW, Configuration::HEIGHT_MATRIX_WINDOW));
+    // Фиксация размера окна ( запрет на изменение )
+    this->setMinimumSize(QSize(Configuration::WIDTH_MATRIX_WINDOW,
+                               Configuration::HEIGHT_MATRIX_WINDOW));
+    this->setMaximumSize(QSize(Configuration::WIDTH_MATRIX_WINDOW,
+                               Configuration::HEIGHT_MATRIX_WINDOW));
 
-        this->_view->setMinimumSize(500, 400);
-        this->_view->setMaximumSize(500, 400);
+    this->_view->setMinimumSize(500, 400);
+    this->_view->setMaximumSize(500, 400);
 
-        // Запрет scroll'ов ( вертикального и горизонтального )
-        this->_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        this->_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        this->_view->setDragMode(QGraphicsView::RubberBandDrag);
+    // Запрет scroll'ов ( вертикального и горизонтального )
+    this->_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->_view->setDragMode(QGraphicsView::RubberBandDrag);
 
-        // Убираем нумерацию в _statistic
-        this->_statistic->verticalHeader()->hide();
+    // Убираем нумерацию в _statistic
+    this->_statistic->verticalHeader()->hide();
 
-        // Фоновая музыка
-        this->setMedia();
+    // Фоновая музыка
+    this->setMedia();
 
-        // Скрытие вспомогательной кнопки для уровней
-        this->ui->levelButton->hide();
+    // Скрытие вспомогательной кнопки для уровней
+    this->ui->levelButton->hide();
 
-        // Сигналы и слоты для выбора уровней
-        connect(this->ui->levelTianglesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-                this, &Matrix::chooseTriangleLevel);
-        connect(this->ui->levelLengthAndDistanceComboBox,
-                QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-                &Matrix::chooseLengthAndDistanceLevel);
+    // Сигналы и слоты для выбора уровней
+    connect(ui->levelTianglesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &Matrix::chooseTriangleLevel);
+    connect(ui->levelLengthAndDistanceComboBox,
+            QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &Matrix::chooseLengthAndDistanceLevel);
+    connect(ui->levelLabirintsComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &Matrix::chooseLabirintLevel);
 }
 
 Matrix::~Matrix()
@@ -510,12 +502,28 @@ void Matrix::chooseLengthAndDistanceLevel(qint32 level)
     }
 }
 
+void Matrix::chooseLabirintLevel(qint32 level)
+{
+    switch (level) {
+    // Первый уровень
+    case 1:
+        Q_FALLTHROUGH();
+    default:
+        this->clearGameWindow();
+        delete _level;
+        _level = nullptr;
+        ui->levelButton->hide();
+        break;
+    }
+}
+
 void Matrix::paintPointOnGraphicView(QMouseEvent* event)
 {
     qDebug() << event->pos();
 
     double rad = 10;
-    _scene->addEllipse(QRectF(event->x() - rad, event->y() - rad, rad * 2.0, rad * 2.0), QPen(), QBrush(Qt::yellow));
+    _scene->addEllipse(QRectF(event->x() - rad, event->y() - rad, rad * 2.0, rad * 2.0), QPen(),
+                       QBrush(Qt::yellow));
 }
 
 void Matrix::mousePressEvent(QMouseEvent* event)

@@ -52,6 +52,7 @@ protected:
     
 	Q_SLOT void chooseTriangleLevel(qint32 level);
     Q_SLOT void chooseLengthAndDistanceLevel(qint32 level);
+    Q_SLOT void chooseLabirintLevel(qint32 level);
     Q_SLOT void paintPointOnGraphicView(QMouseEvent* event);
 
 public:
