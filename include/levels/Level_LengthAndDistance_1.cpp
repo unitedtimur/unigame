@@ -134,24 +134,28 @@ void Level_LengthAndDistance_1::startLevel()
 
 bool Level_LengthAndDistance_1::checkLevel(QObject* watched, QEvent* event)
 {
+    Q_UNUSED(watched)
+
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent* keyEvent = dynamic_cast<QKeyEvent*>(event);
 
 		if (keyEvent->key() == Qt::Key_Space)
-		{
-			for (const auto& it : _polygon._isPressed)
-			{
-				if (!it)
-					return false;
-			}
+        {
+            for (const auto& it : _polygon._isPressed)
+            {
+                if (!it)
+                    return false;
+            }
 
-			// Пользователь прошёл уровень
+            // Пользователь прошёл уровень
 			this->finishLevel();
 
 			return true;
 		}
 	}
+
+    return false;
 }
 
 void Level_LengthAndDistance_1::finishLevel()

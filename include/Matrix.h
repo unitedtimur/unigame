@@ -46,23 +46,26 @@ protected:
     void setMedia();
 	void mousePressEvent(QMouseEvent* event) override;
     bool eventFilter(QObject* watched, QEvent* event) override;
+
+    void saveSettings();
+    void readSettings();
     
 	Q_SLOT void chooseTriangleLevel(qint32 level);
     Q_SLOT void chooseLengthAndDistanceLevel(qint32 level);
     Q_SLOT void paintPointOnGraphicView(QMouseEvent* event);
 
 public:
-    Ui::Matrix*     ui;
-    GraphicScene*   _scene;
-    GraphicView*    _view;
-    ILevel*         _level;
-    QMediaPlayer*   _audio;
-    QMediaPlaylist* _playlist;
-    QMap<QString, bool> _levelsStatistic;
-    QPushButton* _startButton;
-    QPushButton* _statisticButton;
-    QVector<QStringList> _statisticList;
-    QTableWidget* _statistic;
+    Ui::Matrix              *ui;
+    GraphicScene            *_scene;
+    GraphicView             *_view;
+    ILevel                  *_level;
+    QMediaPlayer            *_audio;
+    QMediaPlaylist          *_playlist;
+    QMap<QString, bool>     _levelsStatistic;
+    QPushButton             *_startButton;
+    QPushButton             *_statisticButton;
+    QVector<QStringList>    _statisticList;
+    QTableWidget            *_statistic;
 };
 
 #endif // MATRIX_H
