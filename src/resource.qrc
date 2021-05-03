@@ -9,11 +9,18 @@
         <file>sounds/AUDIO_MATRIX.wav</file>
         <file>sounds/AUDIO_PRESS_MOUSE_LEFT.wav</file>
         <file>sounds/AUDIO_HINT.wav</file>
+        <file>sounds/LEVEL_WON.wav</file>
     </qresource>
     <qresource prefix="/statistic">
         <file>statistic/statistic.csv</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>fonts/font.otf</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>sounds/AUDIO_HINT.wav</file>
+        <file>sounds/AUDIO_MATRIX.wav</file>
+        <file>sounds/AUDIO_PRESS_MOUSE_LEFT.wav</file>
+        <file>sounds/LEVEL_WON.wav</file>
     </qresource>
 </RCC>

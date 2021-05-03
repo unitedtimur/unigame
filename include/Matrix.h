@@ -40,6 +40,8 @@ public:
     Q_SLOT void actionLevelsStatistic_triggered();
     Q_SLOT void actionClearStatistic_triggered();
 
+    Q_SIGNAL void scenePressed(QGraphicsSceneMouseEvent *event);
+
 protected:
     void initLevelsStatistic();
     void clearGameWindow();

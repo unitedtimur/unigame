@@ -44,6 +44,15 @@ set(project_headers
 	include/levels/Level_LengthAndDistance_2.cpp
 	include/levels/Level_LengthAndDistance_3.h
 	include/levels/Level_LengthAndDistance_3.cpp
+
+        # Graphics cells
+        include/levels/aStarAlgorithm.h
+        include/levels/Point.h
+        include/graphicscell.h
+        src/graphicscell.cpp
+
+        include/levels/Level_Labirint_1.h
+        include/levels/Level_Labirint_1.cpp
 )
 
 set(project_sources 

@@ -12,6 +12,8 @@
 #include "include/levels/Level_LengthAndDistance_1.h"
 #include "include/levels/Level_LengthAndDistance_2.h"
 #include "include/levels/Level_LengthAndDistance_3.h"
+#include "include/graphicscell.h"
+#include "include/levels/Level_Labirint_1.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -28,6 +30,7 @@
 #include <QTemporaryFile>
 #include <QDir>
 #include <QSettings>
+#include <QSound>
 
 Matrix::Matrix(QWidget* parent) :
     QMainWindow(parent),
@@ -44,6 +47,8 @@ Matrix::Matrix(QWidget* parent) :
     ui->setupUi(this);
 
     readSettings();
+
+    setMouseTracking(true);
 
     // Устанавливаем стили
     _statistic->setStyleSheet("QTableWidget { "
@@ -172,7 +177,10 @@ bool Matrix::eventFilter(QObject* watched, QEvent* event)
     if (event->type() == QEvent::KeyPress)
     {
         if (_level != nullptr)
-            return _level->checkLevel(watched, event);
+            if (_level->checkLevel(watched, event)) {
+                QSound::play(Configuration::LEVEL_WON);
+                return true;
+            }
     }
 
     return false;
@@ -268,8 +276,6 @@ void Matrix::loadStatistic()
             // Создаём поток для извлечения данных из файла
             QTextStream in(&file);
             in.setCodec("UTF-8");
-
-            QString statistic;
 
             // Считываем данные до конца файла
             while (!in.atEnd())
@@ -418,6 +424,7 @@ void Matrix::clearGameWindow()
 
     // Очищаем сцену
     _scene->clear();
+    _scene->clearFocus();
 
     // Очищаем окно описания уровня
     ui->tooltip->clear();
@@ -428,6 +435,12 @@ void Matrix::clearGameWindow()
 
 void Matrix::chooseTriangleLevel(qint32 level)
 {
+    if (level < 0)
+        return;
+
+    ui->levelLengthAndDistanceComboBox->setCurrentIndex(0);
+    ui->levelLabirintsComboBox->setCurrentIndex(0);
+
     switch (level)
     {
     // Первый уровень
@@ -462,10 +475,19 @@ void Matrix::chooseTriangleLevel(qint32 level)
         ui->levelButton->hide();
         break;
     }
+
+    _scene->setSceneRect(QRect(0, 0, _view->width(), _view->height()));
+    _view->fitInView(_scene->sceneRect(), Qt::KeepAspectRatio);
 }
 
 void Matrix::chooseLengthAndDistanceLevel(qint32 level)
 {
+    if (level < 0)
+        return;
+
+    ui->levelTianglesComboBox->setCurrentIndex(0);
+    ui->levelLabirintsComboBox->setCurrentIndex(0);
+
     switch (level)
     {
     // Первый уровень
@@ -500,14 +522,26 @@ void Matrix::chooseLengthAndDistanceLevel(qint32 level)
         ui->levelButton->hide();
         break;
     }
+
+    _scene->setSceneRect(QRect(0, 0, _view->width(), _view->height()));
+    _view->fitInView(_scene->sceneRect(), Qt::KeepAspectRatio);
 }
 
 void Matrix::chooseLabirintLevel(qint32 level)
 {
+    if (level < 0)
+        return;
+
+    ui->levelLengthAndDistanceComboBox->setCurrentIndex(0);
+    ui->levelTianglesComboBox->setCurrentIndex(0);
+
     switch (level) {
     // Первый уровень
     case 1:
-        Q_FALLTHROUGH();
+        this->clearGameWindow();
+        delete _level;
+        _level = new Level_Labirint_1(this, _view, _scene);
+        break;
     default:
         this->clearGameWindow();
         delete _level;
@@ -515,12 +549,13 @@ void Matrix::chooseLabirintLevel(qint32 level)
         ui->levelButton->hide();
         break;
     }
+
+    _scene->setSceneRect(QRect(0, 0, 6 * 30, 6 * 30));
+    _view->fitInView(_scene->sceneRect(), Qt::KeepAspectRatio);
 }
 
 void Matrix::paintPointOnGraphicView(QMouseEvent* event)
 {
-    qDebug() << event->pos();
-
     double rad = 10;
     _scene->addEllipse(QRectF(event->x() - rad, event->y() - rad, rad * 2.0, rad * 2.0), QPen(),
                        QBrush(Qt::yellow));
@@ -528,7 +563,7 @@ void Matrix::paintPointOnGraphicView(QMouseEvent* event)
 
 void Matrix::mousePressEvent(QMouseEvent* event)
 {
-    Q_UNUSED(event)
+    QMainWindow::mousePressEvent(event);
 }
 
 void Matrix::setMedia()

@@ -8,6 +8,7 @@
 class ILevel : public QObject
 {
 	Q_OBJECT
+
 public:
 	virtual ~ILevel() = default;
 	virtual void paintLevel()									= 0;

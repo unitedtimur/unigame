@@ -22,6 +22,7 @@ static const QString UNIGAME					= ":/img/images/unigame.png";
 static const QString AUDIO_MATRIX				= "qrc:/sounds/sounds/AUDIO_MATRIX.wav";
 static const QString AUDIO_PRESS_MOUSE_LEFT		= "qrc:/sounds/sounds/AUDIO_PRESS_MOUSE_LEFT.wav";
 static const QString AUDIO_HINT					= "qrc:/sounds/sounds/AUDIO_HINT.wav";
+static const QString LEVEL_WON                  = "qrc:/sounds/sounds/LEVEL_WON.wav";
 
 static const QString STATISTIC_RESOURCE			= ":/statistic/statistic/statistic.csv";
 static const QString STATISTIC_PATH				= "/statistic.csv";
