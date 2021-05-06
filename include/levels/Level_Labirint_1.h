@@ -7,19 +7,7 @@ class Matrix;
 class GraphicView;
 class GraphicScene;
 class GraphicsCell;
-
-struct Node
-{
-    qint32 g {0};
-    qint32 h {0};
-    qint32 f {0};
-    qint32 posiition {0};
-
-    bool operator==(qint32 position)
-    {
-        return this->posiition == position;
-    }
-};
+class QMouseEvent;
 
 class Level_Labirint_1 final : public ILevel
 {
@@ -39,6 +27,8 @@ protected:
     bool checkLevel(QObject* watched, QEvent* event) override;
     void finishLevel() override;
     void algorithm();
+
+    Q_SLOT void check(QMouseEvent *event);
 
 private:
     Matrix *_matrix;

@@ -438,9 +438,6 @@ void Matrix::chooseTriangleLevel(qint32 level)
     if (level < 0)
         return;
 
-    ui->levelLengthAndDistanceComboBox->setCurrentIndex(0);
-    ui->levelLabirintsComboBox->setCurrentIndex(0);
-
     switch (level)
     {
     // Первый уровень
@@ -484,9 +481,6 @@ void Matrix::chooseLengthAndDistanceLevel(qint32 level)
 {
     if (level < 0)
         return;
-
-    ui->levelTianglesComboBox->setCurrentIndex(0);
-    ui->levelLabirintsComboBox->setCurrentIndex(0);
 
     switch (level)
     {
@@ -532,20 +526,14 @@ void Matrix::chooseLabirintLevel(qint32 level)
     if (level < 0)
         return;
 
-    ui->levelLengthAndDistanceComboBox->setCurrentIndex(0);
-    ui->levelTianglesComboBox->setCurrentIndex(0);
-
     switch (level) {
     // Первый уровень
     case 1:
         this->clearGameWindow();
-        delete _level;
         _level = new Level_Labirint_1(this, _view, _scene);
         break;
     default:
         this->clearGameWindow();
-        delete _level;
-        _level = nullptr;
         ui->levelButton->hide();
         break;
     }

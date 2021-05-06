@@ -7,10 +7,10 @@
 #include "include/GraphicScene.h"
 #include "../graphicscell.h"
 
-#include <QDebug>
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
 #include "aStarAlgorithm.h"
+#include <QDebug>
 
 Level_Labirint_1::Level_Labirint_1(Matrix *matrix, GraphicView *view, GraphicScene *scene) :
     _matrix(matrix),
@@ -24,26 +24,8 @@ Level_Labirint_1::Level_Labirint_1(Matrix *matrix, GraphicView *view, GraphicSce
 
     algorithm();
 
-    connect(_matrix->ui->levelButton, &QPushButton::clicked, [this](){
-        clearLevel();
-    });
-
-    connect(_view, &GraphicView::mouseClicked, [this](QMouseEvent *event) {
-        if (event->button() & Qt::LeftButton)
-        {
-            GraphicsCell* rect = dynamic_cast<GraphicsCell*>(_view->itemAt(event->pos()));
-
-            if (!rect)
-                return;
-
-            if (!(rect->getStatus() & GraphicsCell::BarrierCell)
-                    && !(rect->getStatus() & GraphicsCell::StartCell)
-                    && !(rect->getStatus() & GraphicsCell::FinishCell)) {
-                rect->setStatus(GraphicsCell::PathCell);
-                _userTry[rect->getX()][rect->getY()] = 1;
-            }
-        }
-    });
+    connect(_matrix->ui->levelButton, &QPushButton::clicked, this, &Level_Labirint_1::clearLevel);
+    connect(_view, &GraphicView::mouseClicked, this, &Level_Labirint_1::check);
 }
 
 void Level_Labirint_1::paintLevel()
@@ -137,7 +119,6 @@ bool Level_Labirint_1::checkLevel(QObject *watched, QEvent *event)
 
 void Level_Labirint_1::finishLevel()
 {
-    qDebug() << "Прошёл";
 }
 
 void Level_Labirint_1::algorithm()
@@ -263,5 +244,24 @@ void Level_Labirint_1::algorithm()
 
         cellY = matrixPath[tempY][tempX].y;
         cellX = matrixPath[tempY][tempX].x;
+    }
+}
+
+void Level_Labirint_1::check(QMouseEvent *event)
+{
+
+    if (event->button() & Qt::LeftButton)
+    {
+        GraphicsCell* rect = dynamic_cast<GraphicsCell*>(_view->itemAt(event->pos()));
+
+        if (!rect)
+            return;
+
+        if (!(rect->getStatus() & GraphicsCell::BarrierCell)
+                && !(rect->getStatus() & GraphicsCell::StartCell)
+                && !(rect->getStatus() & GraphicsCell::FinishCell)) {
+            rect->setStatus(GraphicsCell::PathCell);
+            _userTry[rect->getX()][rect->getY()] = 1;
+        }
     }
 }
