@@ -1,15 +1,27 @@
 #include <QApplication>
+#include <QTimer>
+#include <QSound>
 
+#include "../include/SplashCompany.h"
 #include "include/Matrix.h"
 
 int main(int argc, char** argv)
 {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    QApplication app(argc, argv);
 
-	QApplication app(argc, argv);
+    SplashCompany splashScreen;
+    splashScreen.setPixmap(QPixmap(":/img/images/splash.png"));
+    splashScreen.show();
 
-	Matrix matrix;
-	matrix.show();
+    QEventLoop loop;
+    QSound::play("qrc:/sounds/sounds/SPLASH_LOAD.wav");
+    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
+    loop.exec();
 
-	return QApplication::exec();
+    Matrix matrix;
+    matrix.show();
+
+    splashScreen.finish(&matrix);
+
+    return app.exec();
 }

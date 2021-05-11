@@ -112,6 +112,8 @@ void Level_Triangle_3::startLevel()
 
 bool Level_Triangle_3::checkLevel(QObject* watched, QEvent* event)
 {
+    Q_UNUSED(watched)
+
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent* keyEvent = dynamic_cast<QKeyEvent*>(event);
@@ -130,6 +132,8 @@ bool Level_Triangle_3::checkLevel(QObject* watched, QEvent* event)
 			return true;
 		}
 	}
+
+    return false;
 }
 
 void Level_Triangle_3::finishLevel()
