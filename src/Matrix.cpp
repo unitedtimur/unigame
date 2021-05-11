@@ -5,17 +5,23 @@
 #include "include/GraphicScene.h"
 #include "include/GraphicView.h"
 #include "include/Configuration.h"
+
 #include "include/levels/ILevel.h"
 #include "include/levels/Level_Triangle_1.h"
 #include "include/levels/Level_Triangle_2.h"
 #include "include/levels/Level_Triangle_3.h"
+
 #include "include/levels/Level_LengthAndDistance_1.h"
 #include "include/levels/Level_LengthAndDistance_2.h"
 #include "include/levels/Level_LengthAndDistance_3.h"
+
 #include "include/graphicscell.h"
 #include "include/levels/Level_Labirint_1.h"
 #include "include/levels/Level_Labirint_2.h"
 #include "include/levels/Level_Labirint_3.h"
+
+#include "include/levels/Level_Parallelogram_1.h"
+#include "include/levels/Level_Parallelogram_2.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -158,6 +164,8 @@ Matrix::Matrix(QWidget* parent) :
             this, &Matrix::chooseLengthAndDistanceLevel);
     connect(ui->levelLabirintsComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &Matrix::chooseLabirintLevel);
+    connect(ui->levelParallelogramComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &Matrix::chooseParallelogramLevel);
 }
 
 Matrix::~Matrix()
@@ -298,18 +306,18 @@ void Matrix::saveStatistic()
 {
     try
     {
-//        QSettings settings(QSettings::IniFormat, QSettings::UserScope, Configuration::ORGANIZATION);
-//        settings.beginGroup("Statistics");
-//        {
-//            settings.beginWriteArray("Levels");
+        //        QSettings settings(QSettings::IniFormat, QSettings::UserScope, Configuration::ORGANIZATION);
+        //        settings.beginGroup("Statistics");
+        //        {
+        //            settings.beginWriteArray("Levels");
 
-//            qint32 i = 0;
-//            for (const auto& statistic : _statisticList) {
-//                settings.setArrayIndex(i);
-//                settings.setValue(statistic.join(';') + '\n');
-//            }
-//        }
-//        settings.endGroup();
+        //            qint32 i = 0;
+        //            for (const auto& statistic : _statisticList) {
+        //                settings.setArrayIndex(i);
+        //                settings.setValue(statistic.join(';') + '\n');
+        //            }
+        //        }
+        //        settings.endGroup();
 
 
         if (!QFile(QApplication::applicationDirPath() + Configuration::STATISTIC_PATH).exists())
@@ -543,7 +551,6 @@ void Matrix::chooseLabirintLevel(qint32 level)
         return;
 
     switch (level) {
-    // Первый уровень
     case 1:
         this->clearGameWindow();
         _level = new Level_Labirint_1(this, _view, _scene);
@@ -568,8 +575,34 @@ void Matrix::chooseLabirintLevel(qint32 level)
         _scene->setSceneRect(QRect(0, 0, 20 * 30, 20 * 30));
     }
 
-
     _view->fitInView(_scene->sceneRect(), Qt::KeepAspectRatio);
+}
+
+void Matrix::chooseParallelogramLevel(qint32 level)
+{
+    if (level < 0)
+        return;
+
+    switch (level) {
+    case 1:
+        this->clearGameWindow();
+        this->drawMatrix6x6();
+        _level = new Level_Parallelogram_1(this, _view, _scene);
+        break;
+    case 2:
+        this->clearGameWindow();
+        this->drawMatrix6x6();
+        _level = new Level_Parallelogram_2(this, _view, _scene);
+        break;
+    case 3:
+        this->clearGameWindow();
+        this->drawMatrix6x6();
+        break;
+    default:
+        this->clearGameWindow();
+        ui->levelButton->hide();
+        break;
+    }
 }
 
 void Matrix::paintPointOnGraphicView(QMouseEvent* event)

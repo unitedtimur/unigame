@@ -58,6 +58,15 @@ set(project_headers
         include/levels/Level_Labirint_2.cpp
         include/levels/Level_Labirint_3.h
         include/levels/Level_Labirint_3.cpp
+
+        # Parallelograms
+        include/levels/Level_Parallelogram_1.h
+        include/levels/Level_Parallelogram_1.cpp
+        include/levels/Level_Parallelogram_2.h
+        include/levels/Level_Parallelogram_2.cpp
+
+        # Splash
+        include/SplashCompany.h
 )
 
 set(project_sources 

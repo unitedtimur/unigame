@@ -259,6 +259,22 @@ padding: 5px;
        </widget>
       </item>
       <item>
+       <spacer name="verticalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <widget class="QGroupBox" name="verticalGroupBox">
         <property name="styleSheet">
          <string notr="true">QGroupBox { 
@@ -274,6 +290,63 @@ padding: 5px;
         <layout class="QVBoxLayout" name="labirintsGroupBox">
          <item>
           <widget class="QComboBox" name="levelLabirintsComboBox">
+           <item>
+            <property name="text">
+             <string>Выберите уровень</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Уровень 3</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_7">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="parallelogramGroupBox">
+        <property name="styleSheet">
+         <string notr="true">QGroupBox { 
+color: #8e9297; 
+border: 1px solid #2ecc71; 
+font: 14px PerfoC; 
+padding: 5px; 
+}</string>
+        </property>
+        <property name="title">
+         <string>Параллелограммы</string>
+        </property>
+        <layout class="QVBoxLayout" name="labirintsGroupBox_2">
+         <item>
+          <widget class="QComboBox" name="levelParallelogramComboBox">
            <item>
             <property name="text">
              <string>Выберите уровень</string>
