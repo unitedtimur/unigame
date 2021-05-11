@@ -112,6 +112,8 @@ void Level_LengthAndDistance_2::startLevel()
 
 bool Level_LengthAndDistance_2::checkLevel(QObject* watched, QEvent* event)
 {
+    Q_UNUSED(watched)
+
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent* keyEvent = dynamic_cast<QKeyEvent*>(event);
