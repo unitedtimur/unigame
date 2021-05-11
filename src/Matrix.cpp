@@ -14,6 +14,8 @@
 #include "include/levels/Level_LengthAndDistance_3.h"
 #include "include/graphicscell.h"
 #include "include/levels/Level_Labirint_1.h"
+#include "include/levels/Level_Labirint_2.h"
+#include "include/levels/Level_Labirint_3.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -296,6 +298,20 @@ void Matrix::saveStatistic()
 {
     try
     {
+//        QSettings settings(QSettings::IniFormat, QSettings::UserScope, Configuration::ORGANIZATION);
+//        settings.beginGroup("Statistics");
+//        {
+//            settings.beginWriteArray("Levels");
+
+//            qint32 i = 0;
+//            for (const auto& statistic : _statisticList) {
+//                settings.setArrayIndex(i);
+//                settings.setValue(statistic.join(';') + '\n');
+//            }
+//        }
+//        settings.endGroup();
+
+
         if (!QFile(QApplication::applicationDirPath() + Configuration::STATISTIC_PATH).exists())
             throw std::exception();
 
@@ -532,13 +548,27 @@ void Matrix::chooseLabirintLevel(qint32 level)
         this->clearGameWindow();
         _level = new Level_Labirint_1(this, _view, _scene);
         break;
+    case 2:
+        this->clearGameWindow();
+        _level = new Level_Labirint_2(this, _view, _scene);
+        break;
+    case 3:
+        this->clearGameWindow();
+        _level = new Level_Labirint_3(this, _view, _scene);
+        break;
     default:
         this->clearGameWindow();
         ui->levelButton->hide();
         break;
     }
 
-    _scene->setSceneRect(QRect(0, 0, 6 * 30, 6 * 30));
+    if (level >= 1 && level <= 2) {
+        _scene->setSceneRect(QRect(0, 0, 6 * 30, 6 * 30));
+    } else if (level == 3) {
+        _scene->setSceneRect(QRect(0, 0, 20 * 30, 20 * 30));
+    }
+
+
     _view->fitInView(_scene->sceneRect(), Qt::KeepAspectRatio);
 }
 

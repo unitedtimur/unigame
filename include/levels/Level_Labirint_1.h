@@ -2,11 +2,11 @@
 #define LEVEL_LABIRINT1_H
 
 #include "ILevel.h"
+#include "../graphicscell.h"
 
 class Matrix;
 class GraphicView;
 class GraphicScene;
-class GraphicsCell;
 class QMouseEvent;
 
 class Level_Labirint_1 final : public ILevel

@@ -1,7 +1,6 @@
-#include "Level_Labirint_1.h"
+#include "Level_Labirint_2.h"
 #include "include/Matrix.h"
 #include "ui_Matrix.h"
-
 #include "Point.h"
 #include "include/GraphicView.h"
 #include "include/GraphicScene.h"
@@ -11,7 +10,7 @@
 #include <queue>
 #include <QDebug>
 
-Level_Labirint_1::Level_Labirint_1(Matrix *matrix, GraphicView *view, GraphicScene *scene) :
+Level_Labirint_2::Level_Labirint_2(Matrix *matrix, GraphicView *view, GraphicScene *scene) :
     _matrix(matrix),
     _view(view),
     _scene(scene)
@@ -23,104 +22,11 @@ Level_Labirint_1::Level_Labirint_1(Matrix *matrix, GraphicView *view, GraphicSce
 
     algorithm();
 
-    connect(_matrix->ui->levelButton, &QPushButton::clicked, this, &Level_Labirint_1::clearLevel);
-    connect(_view, &GraphicView::mouseClicked, this, &Level_Labirint_1::check);
+    connect(_matrix->ui->levelButton, &QPushButton::clicked, this, &Level_Labirint_2::clearLevel);
+    connect(_view, &GraphicView::mouseClicked, this, &Level_Labirint_2::check);
 }
 
-void Level_Labirint_1::paintLevel()
-{
-    _cells.resize(6);
-    _rightPath.resize(6);
-    _userTry.resize(6);
-
-    for (qint32 y = 0; y < 6; ++y) {
-        _cells[y].resize(6);
-        _rightPath[y].resize(6);
-        _userTry[y].resize(6);
-
-        for (qint32 x = 0; x < 6; ++x) {
-            _cells[y][x] = new GraphicsCell(GraphicsCell::Status::JustCell);
-            _cells[y][x]->setRect(QRectF(x * 30,
-                                         y * 30,
-                                         30,
-                                         30));
-            _cells[y][x]->setX(x);
-            _cells[y][x]->setY(y);
-
-            _rightPath[y][x] = 0;
-            _userTry[y][x] = 0;
-
-            _scene->addItem(_cells[y][x]);
-        }
-    }
-
-    _cells[0][0]->setStatus(GraphicsCell::Status::StartCell);
-    _cells[5][5]->setStatus(GraphicsCell::Status::FinishCell);
-}
-
-void Level_Labirint_1::paintPoint(const QPoint &point)
-{
-    Q_UNUSED(point)
-}
-
-void Level_Labirint_1::clearLevel()
-{
-    startLevel();
-    algorithm();
-}
-
-void Level_Labirint_1::showTooltip()
-{
-    _matrix->ui->tooltip->setText(QObject::tr("Постройте кратчайший путь в лабиринте"));
-}
-
-void Level_Labirint_1::showHint()
-{
-
-}
-
-void Level_Labirint_1::startLevel()
-{
-    // Показываем задание
-    showTooltip();
-
-    // Отрисовываем уровень
-    paintLevel();
-}
-
-bool Level_Labirint_1::checkLevel(QObject *watched, QEvent *event)
-{
-    Q_UNUSED(watched)
-
-    if (event->type() == QEvent::KeyPress)
-    {
-        QKeyEvent* keyEvent = dynamic_cast<QKeyEvent*>(event);
-
-        if (keyEvent->key() == Qt::Key_Space)
-        {
-            for (qint32 i = 0; i < _rightPath.size(); ++i) {
-                for (qint32 j = 0; j < _rightPath[i].size(); ++j) {
-                    if (_userTry[j][i] != _rightPath[j][i]) {
-                        return false;
-                    }
-                }
-            }
-
-            // Пользователь прошёл уровень
-            this->finishLevel();
-
-            return true;
-        }
-    }
-
-    return false;
-}
-
-void Level_Labirint_1::finishLevel()
-{
-}
-
-void Level_Labirint_1::algorithm()
+void Level_Labirint_2::algorithm()
 {
     const QVector<QVector<GraphicsCell*>> parse = _cells;
 
@@ -221,7 +127,6 @@ void Level_Labirint_1::algorithm()
     // If not path from start cell to finish cell
     if (cells.empty())
     {
-        qDebug() << "NO PATH";
         return;
     }
 
@@ -246,7 +151,7 @@ void Level_Labirint_1::algorithm()
     }
 }
 
-void Level_Labirint_1::check(QMouseEvent *event)
+void Level_Labirint_2::check(QMouseEvent *event)
 {
     if (event->button() & Qt::LeftButton)
     {
@@ -262,4 +167,101 @@ void Level_Labirint_1::check(QMouseEvent *event)
             _userTry[rect->getX()][rect->getY()] = 1;
         }
     }
+}
+
+void Level_Labirint_2::paintLevel()
+{
+    _cells.resize(6);
+    _rightPath.resize(6);
+    _userTry.resize(6);
+
+    for (qint32 y = 0; y < 6; ++y) {
+        _cells[y].resize(6);
+        _rightPath[y].resize(6);
+        _userTry[y].resize(6);
+
+        for (qint32 x = 0; x < 6; ++x) {
+            _cells[y][x] = new GraphicsCell(GraphicsCell::Status::JustCell);
+            _cells[y][x]->setRect(QRectF(x * 30,
+                                         y * 30,
+                                         30,
+                                         30));
+            _cells[y][x]->setX(x);
+            _cells[y][x]->setY(y);
+
+            _rightPath[y][x] = 0;
+            _userTry[y][x] = 0;
+
+            _scene->addItem(_cells[y][x]);
+        }
+    }
+
+    for (qint32 i = 0; i < 4; ++i) {
+        _cells[3][i]->setStatus(GraphicsCell::Status::BarrierCell);
+    }
+
+    _cells[2][0]->setStatus(GraphicsCell::Status::StartCell);
+    _cells[5][5]->setStatus(GraphicsCell::Status::FinishCell);
+}
+
+void Level_Labirint_2::paintPoint(const QPoint &point)
+{
+    Q_UNUSED(point)
+}
+
+void Level_Labirint_2::clearLevel()
+{
+    startLevel();
+    algorithm();
+}
+
+void Level_Labirint_2::showTooltip()
+{
+    _matrix->ui->tooltip->setText(QObject::tr("Постройте кратчайший путь в лабиринте"));
+}
+
+void Level_Labirint_2::showHint()
+{
+
+}
+
+void Level_Labirint_2::startLevel()
+{
+    // Показываем задание
+    showTooltip();
+
+    // Отрисовываем уровень
+    paintLevel();
+}
+
+bool Level_Labirint_2::checkLevel(QObject *watched, QEvent *event)
+{
+    Q_UNUSED(watched)
+
+    if (event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent* keyEvent = dynamic_cast<QKeyEvent*>(event);
+
+        if (keyEvent->key() == Qt::Key_Space)
+        {
+            for (qint32 i = 0; i < _rightPath.size(); ++i) {
+                for (qint32 j = 0; j < _rightPath[i].size(); ++j) {
+                    if (_userTry[j][i] != _rightPath[j][i]) {
+                        return false;
+                    }
+                }
+            }
+
+            // Пользователь прошёл уровень
+            this->finishLevel();
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void Level_Labirint_2::finishLevel()
+{
 }

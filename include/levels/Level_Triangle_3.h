@@ -11,42 +11,42 @@ class QMediaPlayer;
 
 class Level_Triangle_3 final : public ILevel
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	explicit Level_Triangle_3(Matrix* matrix, GraphicView* view, GraphicScene* scene);
-	~Level_Triangle_3();
+    explicit Level_Triangle_3(Matrix* matrix, GraphicView* view, GraphicScene* scene);
+    ~Level_Triangle_3();
 
 protected:
-	void paintLevel() override;
-	void paintPoint(const QPoint& point) override;
-	void clearLevel() override;
-	void showTooltip() override;
-	void showHint() override;
-	void startLevel() override;
-	bool checkLevel(QObject* watched, QEvent* event) override;
-	bool inArea(const QPoint& first, const QPoint& second, const qint32& epsilon = 15);
-	void finishLevel() override;
+    void paintLevel() override;
+    void paintPoint(const QPoint& point) override;
+    void clearLevel() override;
+    void showTooltip() override;
+    void showHint() override;
+    void startLevel() override;
+    bool checkLevel(QObject* watched, QEvent* event) override;
+    bool inArea(const QPoint& first, const QPoint& second, const qint32& epsilon = 15);
+    void finishLevel() override;
 
-	Q_SLOT void paintPointOnGraphicView(QMouseEvent* event);
-	Q_SLOT void paintLineOnGraphicView(QMouseEvent* event);
-	Q_SLOT void isInsidePolygon(QMouseEvent* event);
-	Q_SLOT void playPressSound();
+    Q_SLOT void paintPointOnGraphicView(QMouseEvent* event);
+    Q_SLOT void paintLineOnGraphicView(QMouseEvent* event);
+    Q_SLOT void isInsidePolygon(QMouseEvent* event);
+    Q_SLOT void playPressSound();
 
 private:
-	Matrix* _matrix;
-	GraphicView* _view;
-	GraphicScene* _scene;
-	QMediaPlayer* _mediaPress;
+    Matrix* _matrix;
+    GraphicView* _view;
+    GraphicScene* _scene;
+    QMediaPlayer* _mediaPress;
 
-	struct Polygon
-	{
-		QVector<QPoint> _points;
-		QVector<bool>	_isPressed;
-	} _polygon;
+    struct Polygon
+    {
+        QVector<QPoint> _points;
+        QVector<bool>	_isPressed;
+    } _polygon;
 
-	QPoint _previousPos;
+    QPoint _previousPos;
 
-	qint32 _counter;
+    qint32 _counter;
 };
 
-#endif // LEVEL_TRIANGLE_2
+#endif // LEVEL_TRIANGLE_3
