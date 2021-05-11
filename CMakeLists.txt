@@ -8,9 +8,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-#Чтобы найти пакеты Qt5
-set(CMAKE_PREFIX_PATH "/home/unitedtimur/Qt/5.12.9/gcc_64/lib/")
-
 find_package(Qt5 COMPONENTS Core Widgets Gui Multimedia REQUIRED)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
