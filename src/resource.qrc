@@ -26,5 +26,7 @@
         <file>sounds/LEVEL_WON.wav</file>
         <file>images/splash.png</file>
         <file>videos/preview.mp4</file>
+        <file>translate/unigame_en.ts</file>
+        <file>translate/unigame_en.qm</file>
     </qresource>
 </RCC>

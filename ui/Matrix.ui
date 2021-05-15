@@ -154,6 +154,15 @@ padding: 5px;
         <property name="title">
          <string>Равнобедренные треугольники</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignHCenter|Qt::AlignTop</set>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
         <layout class="QVBoxLayout" name="verticalLayout_7">
          <property name="topMargin">
           <number>20</number>
@@ -217,6 +226,9 @@ padding: 5px;
         <property name="title">
          <string>Длина и расстояние</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <layout class="QVBoxLayout" name="levelPrymaeLayout">
          <property name="topMargin">
           <number>20</number>
@@ -277,6 +289,9 @@ padding: 5px;
         <property name="title">
          <string>Лабиринты</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
         <layout class="QVBoxLayout" name="labirintsGroupBox">
          <property name="topMargin">
           <number>20</number>
@@ -336,6 +351,9 @@ padding: 5px;
         </property>
         <property name="title">
          <string>Параллелограммы</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
         <layout class="QVBoxLayout" name="labirintsGroupBox_2">
          <property name="topMargin">
