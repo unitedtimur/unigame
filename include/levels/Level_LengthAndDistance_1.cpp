@@ -14,7 +14,7 @@ Level_LengthAndDistance_1::Level_LengthAndDistance_1(Matrix* matrix, GraphicView
 {
 	this->Level_LengthAndDistance_1::startLevel();
 
-	_matrix->ui->levelButton->setText(QString::fromUtf8(u8"Удалить линии и начать сначала"));
+    _matrix->ui->levelButton->setText(QObject::tr("Удалить линии и начать сначала"));
 
 	connect(_view, &GraphicView::mouseClicked, this, &Level_LengthAndDistance_1::paintLineOnGraphicView);
 	connect(_view, &GraphicView::mouseClicked, this, &Level_LengthAndDistance_1::isInsidePolygon);
@@ -60,7 +60,7 @@ void Level_LengthAndDistance_1::isInsidePolygon(QMouseEvent* event)
 
 	// Если пользователь 10 раз не попал в нужные точки, то показываем подсказку
 	if (++_counter == 10)
-		_matrix->ui->hintLabel->setText(_matrix->ui->hintLabel->text() + QString::fromUtf8(u8"\nПопробуйте начать с крайней левой верхней точки"));
+        _matrix->ui->hintLabel->setText(_matrix->ui->hintLabel->text() + QObject::tr("\nПопробуйте начать с крайней левой верхней точки"));
 }
 
 void Level_LengthAndDistance_1::playPressSound()
@@ -112,12 +112,12 @@ void Level_LengthAndDistance_1::clearLevel()
 
 void Level_LengthAndDistance_1::showTooltip()
 {
-	_matrix->ui->tooltip->setText(QString::fromUtf8(u8"Постройте отрезок, соединяющий две\nданные точки."));
+    _matrix->ui->tooltip->setText(QObject::tr("Постройте отрезок, соединяющий две\nданные точки."));
 }
 
 void Level_LengthAndDistance_1::showHint()
 {
-	_matrix->ui->hintLabel->setText(QString::fromUtf8(u8"Соединяйте линии правой кнопкой мыши.\nВнимание! Выберите правильное начало нажатий!"));
+    _matrix->ui->hintLabel->setText(QObject::tr("Соединяйте линии правой кнопкой мыши.\nВнимание! Выберите правильное начало нажатий!"));
 }
 
 void Level_LengthAndDistance_1::startLevel()
@@ -166,7 +166,7 @@ void Level_LengthAndDistance_1::finishLevel()
 	_scene->addLine(QLineF(QPointF(_polygon._points[0]), QPointF(_polygon._points[1])), QPen(Qt::red, 2));
 	_scene->addLine(QLineF(QPointF(_polygon._points[1]), QPointF(_polygon._points[2])), QPen(Qt::red, 2));
 
-	_matrix->changeStatistic(QStringList() << QString::fromUtf8(u8"Длина и расстояние") << QString::fromUtf8(u8"Уровень 1") << QString::fromUtf8(u8"Пройден"));
+    _matrix->changeStatistic(QStringList() << QObject::tr("Длина и расстояние") << QObject::tr("Уровень 1") << QObject::tr("Пройден"));
 }
 
 bool Level_LengthAndDistance_1::inArea(const QPoint& first, const QPoint& second, const qint32& epsilon)

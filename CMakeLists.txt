@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.3)
+﻿cmake_minimum_required(VERSION 3.15)
 
 project(uniGame VERSION 1.0.0 LANGUAGES CXX)
 
@@ -61,6 +61,8 @@ set(project_headers
         include/levels/Level_Parallelogram_1.cpp
         include/levels/Level_Parallelogram_2.h
         include/levels/Level_Parallelogram_2.cpp
+        include/levels/Level_Parallelogram_3.h
+        include/levels/Level_Parallelogram_3.cpp
 
         # Splash
         include/SplashCompany.h
@@ -79,6 +81,8 @@ set(project_resources
 
 qt5_wrap_ui(project_headers_wrapped ${project_ui})
 qt5_add_resources(project_sources ${project_resources})
+
+execute_process(COMMAND lrelease ${CMAKE_SOURCE_DIR}/src/translate/unigame_en.ts)
 
 # Устанавливаем режим работы приложения для Windows
 IF(WIN32)

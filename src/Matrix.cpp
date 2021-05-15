@@ -22,6 +22,7 @@
 
 #include "include/levels/Level_Parallelogram_1.h"
 #include "include/levels/Level_Parallelogram_2.h"
+#include "include/levels/Level_Parallelogram_3.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -49,8 +50,8 @@ Matrix::Matrix(QWidget* parent) :
     _level(nullptr),
     _audio(new QMediaPlayer),
     _playlist(new QMediaPlaylist),
-    _startButton(new QPushButton(QString::fromUtf8(u8"Начать"), this)),
-    _statisticButton(new QPushButton(QString::fromUtf8(u8"Статистика"), this)),
+    _startButton(new QPushButton(QObject::tr("Начать"), this)),
+    _statisticButton(new QPushButton(QObject::tr("Статистика"), this)),
     _statistic(new QTableWidget)
 {
     ui->setupUi(this);
@@ -292,7 +293,6 @@ void Matrix::loadStatistic()
 
             // Считываем данные до конца файла
             while (!in.atEnd()) {
-                qDebug() << QString(in.readLine().toUtf8()).split(';');
                 _statisticList.push_back(QString(in.readLine().toUtf8()).split(';'));
             }
 
@@ -350,7 +350,7 @@ void Matrix::showStatistic()
 {
     _statistic->setRowCount(_statisticList.size());
     _statistic->setColumnCount(3);
-    _statistic->setHorizontalHeaderLabels(QStringList() << QString::fromUtf8(u8"Раздел") << QString::fromUtf8(u8"Уровень") << QString::fromUtf8(u8"Статус"));
+    _statistic->setHorizontalHeaderLabels(QStringList() << QObject::tr("Раздел") << QObject::tr("Уровень") << QObject::tr("Статус"));
 
     for (qint32 i = 0; i < _statisticList.size(); ++i)
     {
@@ -374,13 +374,13 @@ void Matrix::clearStatistic()
 {
     for (qint32 i = 0; i < _statisticList.size(); ++i)
     {
-        _statisticList[i][2] = QString::fromUtf8(u8"Не пройден");
+        _statisticList[i][2] = QObject::tr("Не пройден");
     }
 }
 
 void Matrix::actionHowToPlay_triggered()
 {
-    QMessageBox::information(this, QString::fromUtf8(u8"Как играть?"), QString::fromUtf8(u8"Если вы выполнили задание уровня, нажмите 'Space' на клавиатуре."));
+    QMessageBox::information(this, QObject::tr("Как играть?"), QObject::tr("Если вы выполнили задание уровня, нажмите 'Space' на клавиатуре."));
 }
 
 void Matrix::actionExit_triggered()
@@ -390,14 +390,14 @@ void Matrix::actionExit_triggered()
 
 void Matrix::actionAbout_triggered()
 {
-    QMessageBox::about(this, QString::fromUtf8(u8"О создателе"), "<a href='https://unitedtimur.github.io'>by UnitedTimur (c)</a>");
+    QMessageBox::about(this, QObject::tr("О создателе"), "<a href='https://unitedtimur.github.io'>by UnitedTimur (c)</a>");
 }
 
 void Matrix::actionLevelsStatistic_triggered()
 {
     _statistic->setRowCount(_statisticList.size());
     _statistic->setColumnCount(3);
-    _statistic->setHorizontalHeaderLabels(QStringList() << QString::fromUtf8(u8"Раздел") << QString::fromUtf8(u8"Уровень") << QString::fromUtf8(u8"Статус"));
+    _statistic->setHorizontalHeaderLabels(QStringList() << QObject::tr("Раздел") << QObject::tr("Уровень") << QObject::tr("Статус"));
 
     for (qint32 i = 0; i < _statisticList.size(); ++i)
     {
@@ -579,15 +579,19 @@ void Matrix::chooseParallelogramLevel(qint32 level)
         this->clearGameWindow();
         this->drawMatrix6x6();
         _level = new Level_Parallelogram_1(this, _view, _scene);
+        ui->levelButton->show();
         break;
     case 2:
         this->clearGameWindow();
         this->drawMatrix6x6();
         _level = new Level_Parallelogram_2(this, _view, _scene);
+        ui->levelButton->show();
         break;
     case 3:
         this->clearGameWindow();
         this->drawMatrix6x6();
+        _level = new Level_Parallelogram_3(this, _view, _scene);
+        ui->levelButton->show();
         break;
     default:
         this->clearGameWindow();
