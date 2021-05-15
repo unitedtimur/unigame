@@ -269,4 +269,8 @@ bool Level_Labirint_3::checkLevel(QObject *watched, QEvent *event)
 
 void Level_Labirint_3::finishLevel()
 {
+    _matrix->changeStatistic(QStringList()
+                             << QObject::tr("Лабиринты")
+                             << QObject::tr("Уровень 3")
+                             << QObject::tr("Пройден"));
 }

@@ -39,6 +39,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QSound>
+#include <QVideoWidget>
 
 Matrix::Matrix(QWidget* parent) :
     QMainWindow(parent),
@@ -242,6 +243,8 @@ void Matrix::startGame()
     // Обновляем окно игры
     this->ui->levelTianglesComboBox->setCurrentIndex(0);
     this->ui->levelLengthAndDistanceComboBox->setCurrentIndex(0);
+    this->ui->levelLabirintsComboBox->setCurrentIndex(0);
+    this->ui->levelParallelogramComboBox->setCurrentIndex(0);
     this->clearGameWindow();
 }
 
@@ -288,8 +291,10 @@ void Matrix::loadStatistic()
             in.setCodec("UTF-8");
 
             // Считываем данные до конца файла
-            while (!in.atEnd())
+            while (!in.atEnd()) {
+                qDebug() << QString(in.readLine().toUtf8()).split(';');
                 _statisticList.push_back(QString(in.readLine().toUtf8()).split(';'));
+            }
 
             file.close();
         }
@@ -306,20 +311,6 @@ void Matrix::saveStatistic()
 {
     try
     {
-        //        QSettings settings(QSettings::IniFormat, QSettings::UserScope, Configuration::ORGANIZATION);
-        //        settings.beginGroup("Statistics");
-        //        {
-        //            settings.beginWriteArray("Levels");
-
-        //            qint32 i = 0;
-        //            for (const auto& statistic : _statisticList) {
-        //                settings.setArrayIndex(i);
-        //                settings.setValue(statistic.join(';') + '\n');
-        //            }
-        //        }
-        //        settings.endGroup();
-
-
         if (!QFile(QApplication::applicationDirPath() + Configuration::STATISTIC_PATH).exists())
             throw std::exception();
 
@@ -399,7 +390,7 @@ void Matrix::actionExit_triggered()
 
 void Matrix::actionAbout_triggered()
 {
-    QMessageBox::about(this, QString::fromUtf8(u8"О создателе"), "<a href='https://lihomanov.me'>by UnitedTimur (c)</a>");
+    QMessageBox::about(this, QString::fromUtf8(u8"О создателе"), "<a href='https://unitedtimur.github.io'>by UnitedTimur (c)</a>");
 }
 
 void Matrix::actionLevelsStatistic_triggered()
@@ -603,6 +594,9 @@ void Matrix::chooseParallelogramLevel(qint32 level)
         ui->levelButton->hide();
         break;
     }
+
+    _scene->setSceneRect(QRect(0, 0, _view->width(), _view->height()));
+    _view->fitInView(_scene->sceneRect(), Qt::KeepAspectRatio);
 }
 
 void Matrix::paintPointOnGraphicView(QMouseEvent* event)

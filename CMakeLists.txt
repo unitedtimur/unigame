@@ -8,7 +8,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-find_package(Qt5 COMPONENTS Core Widgets Gui Multimedia REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Gui Multimedia MultimediaWidgets REQUIRED)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -101,4 +101,5 @@ target_link_libraries(${PROJECT_NAME}
 	Qt5::Gui
 	Qt5::Widgets
         Qt5::Multimedia
+        Qt5::MultimediaWidgets
 )
