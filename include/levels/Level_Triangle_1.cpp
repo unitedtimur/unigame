@@ -76,7 +76,7 @@ void Level_Triangle_1::clearLevel()
 
 void Level_Triangle_1::showTooltip()
 {
-	_matrix->ui->tooltip->setText(QString::fromUtf8(u8"Соедините три данные точки так,\nчтобы получился равнобедренный\nтреугольник."));
+	_matrix->ui->tooltip->setText(QObject::tr("Соедините три данные точки так,\nчтобы получился равнобедренный\nтреугольник."));
 }
 
 void Level_Triangle_1::paintPointOnGraphicView(QMouseEvent* event)
@@ -117,7 +117,7 @@ void Level_Triangle_1::startLevel()
 
 void Level_Triangle_1::showHint()
 {
-	_matrix->ui->hintLabel->setText(QString::fromUtf8(u8"Подсказка\nЧтобы решить уровень достаточно единожды попасть в каждую из точек!"));
+	_matrix->ui->hintLabel->setText(QObject::tr("Подсказка\nЧтобы решить уровень достаточно единожды попасть в каждую из точек!"));
 }
 
 bool Level_Triangle_1::checkLevel(QObject* watched, QEvent* event)
@@ -150,7 +150,7 @@ void Level_Triangle_1::finishLevel()
 	_scene->addLine(QLineF(QPointF(_polygon._points[1]), QPointF(_polygon._points[2])), QPen(Qt::red, 2));
 	_scene->addLine(QLineF(QPointF(_polygon._points[2]), QPointF(_polygon._points[0])), QPen(Qt::red, 2));
 
-	_matrix->changeStatistic(QStringList() << QString::fromUtf8(u8"Равнобедренные треугольники") << QString::fromUtf8(u8"Уровень 1") << QString::fromUtf8(u8"Пройден"));
+	_matrix->changeStatistic(QStringList() << QObject::tr("Равнобедренные треугольники") << QObject::tr("Уровень 1") << QObject::tr("Пройден"));
 }
 
 bool Level_Triangle_1::inArea(const QPoint& first, const QPoint& second, const qint32& epsilon)

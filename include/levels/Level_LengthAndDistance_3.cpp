@@ -17,7 +17,7 @@ Level_LengthAndDistance_3::Level_LengthAndDistance_3(Matrix* matrix, GraphicView
 {
 	this->Level_LengthAndDistance_3::startLevel();
 
-	_matrix->ui->levelButton->setText(QString::fromUtf8(u8"Удалить линии и начать сначала"));
+	_matrix->ui->levelButton->setText(QObject::tr("Удалить линии и начать сначала"));
 
 	connect(_view, &GraphicView::mouseClicked, this, &Level_LengthAndDistance_3::paintPointOnGraphicView);
 	connect(_view, &GraphicView::mouseClicked, this, &Level_LengthAndDistance_3::isInsidePolygon);
@@ -103,12 +103,12 @@ void Level_LengthAndDistance_3::clearLevel()
 
 void Level_LengthAndDistance_3::showTooltip()
 {
-	_matrix->ui->tooltip->setText(QString::fromUtf8(u8"Постройте две точки, делящие\nотрезок на три равные части."));
+	_matrix->ui->tooltip->setText(QObject::tr("Постройте две точки, делящие\nотрезок на три равные части."));
 }
 
 void Level_LengthAndDistance_3::showHint()
 {
-	_matrix->ui->hintLabel->setText(QString::fromUtf8(u8"Попробуйте воспользоваться теоремой Пифагора."));
+	_matrix->ui->hintLabel->setText(QObject::tr("Попробуйте воспользоваться теоремой Пифагора."));
 }
 
 void Level_LengthAndDistance_3::startLevel()
@@ -152,7 +152,7 @@ void Level_LengthAndDistance_3::finishLevel()
 	this->paintPoint(_answersPoint[0].toPoint());
 	this->paintPoint(_answersPoint[1].toPoint());
 
-	_matrix->changeStatistic(QStringList() << QString::fromUtf8(u8"Длина и расстояние") << QString::fromUtf8(u8"Уровень 3") << QString::fromUtf8(u8"Пройден"));
+	_matrix->changeStatistic(QStringList() << QObject::tr("Длина и расстояние") << QObject::tr("Уровень 3") << QObject::tr("Пройден"));
 }
 
 bool Level_LengthAndDistance_3::inArea(const QPoint& first, const QPoint& second, const qint32& epsilon)

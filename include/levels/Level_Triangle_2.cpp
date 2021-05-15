@@ -16,7 +16,7 @@ Level_Triangle_2::Level_Triangle_2(Matrix* matrix, GraphicView* view, GraphicSce
 {
 	this->Level_Triangle_2::startLevel();
 	
-	_matrix->ui->levelButton->setText(QString::fromUtf8(u8"Удалить линии и начать сначала"));
+	_matrix->ui->levelButton->setText(QObject::tr("Удалить линии и начать сначала"));
 
 	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_2::paintLineOnGraphicView);
 	connect(_view, &GraphicView::mouseClicked, this, &Level_Triangle_2::isInsidePolygon);
@@ -78,12 +78,12 @@ void Level_Triangle_2::clearLevel()
 
 void Level_Triangle_2::showTooltip()
 {
-	_matrix->ui->tooltip->setText(QString::fromUtf8(u8"Постройте равнобедренный\nтреугольник с вершинами в трёх из\nданных точек."));
+	_matrix->ui->tooltip->setText(QObject::tr("Постройте равнобедренный\nтреугольник с вершинами в трёх из\nданных точек."));
 }
 
 void Level_Triangle_2::showHint()
 {
-	_matrix->ui->hintLabel->setText(QString::fromUtf8(u8"Соединяйте линии правой кнопкой мыши.\nВнимание! Выберите правильное начало нажатий!"));
+	_matrix->ui->hintLabel->setText(QObject::tr("Соединяйте линии правой кнопкой мыши.\nВнимание! Выберите правильное начало нажатий!"));
 }
 
 void Level_Triangle_2::startLevel()
@@ -131,7 +131,7 @@ void Level_Triangle_2::finishLevel()
 	_scene->addLine(QLineF(QPointF(_polygon._points[1]), QPointF(_polygon._points[2])), QPen(Qt::red, 2));
 	_scene->addLine(QLineF(QPointF(_polygon._points[2]), QPointF(_polygon._points[0])), QPen(Qt::red, 2));
 
-	_matrix->changeStatistic(QStringList() << QString::fromUtf8(u8"Равнобедренные треугольники") << QString::fromUtf8(u8"Уровень 2") << QString::fromUtf8(u8"Пройден"));
+	_matrix->changeStatistic(QStringList() << QObject::tr("Равнобедренные треугольники") << QObject::tr("Уровень 2") << QObject::tr("Пройден"));
 }
 
 void Level_Triangle_2::paintPointOnGraphicView(QMouseEvent* event)
@@ -169,7 +169,7 @@ void Level_Triangle_2::isInsidePolygon(QMouseEvent* event)
 
 	// Если пользователь 10 раз не попал в нужные точки, то показываем подсказку
 	if (++_counter == 10)
-		_matrix->ui->hintLabel->setText(_matrix->ui->hintLabel->text() + QString::fromUtf8(u8"\nПопробуйте начать с крайней левой верхней точки"));
+		_matrix->ui->hintLabel->setText(_matrix->ui->hintLabel->text() + QObject::tr("\nПопробуйте начать с крайней левой верхней точки"));
 }
 
 void Level_Triangle_2::playPressSound()

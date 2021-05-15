@@ -14,7 +14,7 @@ Level_Parallelogram_1::Level_Parallelogram_1(Matrix* matrix, GraphicView* view, 
 {
     this->Level_Parallelogram_1::startLevel();
 
-    _matrix->ui->levelButton->setText(QString::fromUtf8(u8"Удалить линии и начать сначала"));
+    _matrix->ui->levelButton->setText(QObject::tr("Удалить линии и начать сначала"));
 
 
     connect(_view, &GraphicView::mouseClicked, this, &Level_Parallelogram_1::paintLineOnGraphicView);
@@ -57,7 +57,7 @@ void Level_Parallelogram_1::isInsidePolygon(QMouseEvent* event)
 
     // Если пользователь 10 раз не попал в нужные точки, то показываем подсказку
     if (++_counter == 10)
-        _matrix->ui->hintLabel->setText(_matrix->ui->hintLabel->text() + QString::fromUtf8(u8"\nПопробуйте начать с крайней левой верхней точки"));
+        _matrix->ui->hintLabel->setText(_matrix->ui->hintLabel->text() + QObject::tr("\nПопробуйте начать с крайней левой верхней точки"));
 }
 
 void Level_Parallelogram_1::playPressSound()
