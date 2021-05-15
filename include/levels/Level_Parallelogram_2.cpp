@@ -53,10 +53,6 @@ void Level_Parallelogram_2::isInsidePolygon(QMouseEvent* event)
             }
         }
     }
-
-    // Если пользователь 10 раз не попал в нужные точки, то показываем подсказку
-    if (++_counter == 10)
-        _matrix->ui->hintLabel->setText(_matrix->ui->hintLabel->text() + QString::fromUtf8(u8"\nПопробуйте начать с крайней левой верхней точки"));
 }
 
 void Level_Parallelogram_2::playPressSound()

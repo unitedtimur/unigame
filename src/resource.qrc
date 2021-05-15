@@ -25,5 +25,6 @@
         <file>sounds/AUDIO_PRESS_MOUSE_LEFT.wav</file>
         <file>sounds/LEVEL_WON.wav</file>
         <file>images/splash.png</file>
+        <file>videos/preview.mp4</file>
     </qresource>
 </RCC>
