@@ -168,7 +168,7 @@ void Level_Parallelogram_1::finishLevel()
     _scene->addLine(QLineF(QPointF(_polygon._points[3]), QPointF(_polygon._points[2])), QPen(Qt::red, 2));
     _scene->addLine(QLineF(QPointF(_polygon._points[2]), QPointF(_polygon._points[0])), QPen(Qt::red, 2));
 
-    _matrix->changeStatistic(QStringList() << QObject::tr("Параллелограмы")
+    _matrix->changeStatistic(QStringList() << QObject::tr("Параллелограммы")
                              << QObject::tr("Уровень 1")
                              << QObject::tr("Пройден"));
 }

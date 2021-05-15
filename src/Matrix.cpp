@@ -292,7 +292,6 @@ void Matrix::loadStatistic()
 
             // Считываем данные до конца файла
             while (!in.atEnd()) {
-                qDebug() << QString(in.readLine().toUtf8()).split(';');
                 _statisticList.push_back(QString(in.readLine().toUtf8()).split(';'));
             }
 
