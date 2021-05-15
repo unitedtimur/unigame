@@ -9,19 +9,19 @@ int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
 
-    SplashCompany splashScreen;
-    splashScreen.setPixmap(QPixmap(":/img/images/splash.png"));
-    splashScreen.show();
+//    SplashCompany splashScreen;
+//    splashScreen.setPixmap(QPixmap(":/img/images/splash.png"));
+//    splashScreen.show();
 
-    QEventLoop loop;
-    QSound::play("qrc:/sounds/sounds/SPLASH_LOAD.wav");
-    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
-    loop.exec();
+//    QEventLoop loop;
+//    QSound::play("qrc:/sounds/sounds/SPLASH_LOAD.wav");
+//    QTimer::singleShot(5000, &loop, &QEventLoop::quit);
+//    loop.exec();
 
     Matrix matrix;
     matrix.show();
 
-    splashScreen.finish(&matrix);
+//    splashScreen.finish(&matrix);
 
     return app.exec();
 }

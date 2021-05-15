@@ -61,6 +61,8 @@ set(project_headers
         include/levels/Level_Parallelogram_1.cpp
         include/levels/Level_Parallelogram_2.h
         include/levels/Level_Parallelogram_2.cpp
+        include/levels/Level_Parallelogram_3.h
+        include/levels/Level_Parallelogram_3.cpp
 
         # Splash
         include/SplashCompany.h

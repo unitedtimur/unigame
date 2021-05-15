@@ -22,6 +22,7 @@
 
 #include "include/levels/Level_Parallelogram_1.h"
 #include "include/levels/Level_Parallelogram_2.h"
+#include "include/levels/Level_Parallelogram_3.h"
 
 #include <QPainter>
 #include <QDebug>
@@ -578,15 +579,19 @@ void Matrix::chooseParallelogramLevel(qint32 level)
         this->clearGameWindow();
         this->drawMatrix6x6();
         _level = new Level_Parallelogram_1(this, _view, _scene);
+        ui->levelButton->show();
         break;
     case 2:
         this->clearGameWindow();
         this->drawMatrix6x6();
         _level = new Level_Parallelogram_2(this, _view, _scene);
+        ui->levelButton->show();
         break;
     case 3:
         this->clearGameWindow();
         this->drawMatrix6x6();
+        _level = new Level_Parallelogram_3(this, _view, _scene);
+        ui->levelButton->show();
         break;
     default:
         this->clearGameWindow();

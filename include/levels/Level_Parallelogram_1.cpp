@@ -16,6 +16,7 @@ Level_Parallelogram_1::Level_Parallelogram_1(Matrix* matrix, GraphicView* view, 
 
     _matrix->ui->levelButton->setText(QString::fromUtf8(u8"Удалить линии и начать сначала"));
 
+
     connect(_view, &GraphicView::mouseClicked, this, &Level_Parallelogram_1::paintLineOnGraphicView);
     connect(_view, &GraphicView::mouseClicked, this, &Level_Parallelogram_1::isInsidePolygon);
     connect(_matrix->ui->levelButton, &QPushButton::clicked, this, &Level_Parallelogram_1::clearLevel);
